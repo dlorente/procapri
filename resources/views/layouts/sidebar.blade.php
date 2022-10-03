@@ -15,7 +15,7 @@
                 </a>
                 <div class="collapse" id="collapseRebanho" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Entrada de animais</a>
+                        <a class="nav-link" href="{{ route('animals.index') }}">Entrada de animais</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Saída de animais</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Movimento entre instalações</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Registro de desmame</a>
