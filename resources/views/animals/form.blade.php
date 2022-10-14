@@ -17,34 +17,34 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Registro</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Registro">
+                                <label for="anregistro" class="form-label">Registro</label>
+                                <input type="text" class="form-control" id="anregistro" name="anregistro" value="{{ old('anregistro', $animal->anregistro ?? null) }}" placeholder="Registro">
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nome do animal">
+                                <label for="annome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="annome" name="annome" value="{{ old('annome', $animal->annome ?? null) }}" placeholder="Nome do animal">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Placa</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Placa">
+                                <label for="ananimal" class="form-label">Placa</label>
+                                <input type="text" class="form-control" id="ananimal" name="ananimal" value="{{ old('ananimal', $animal->ananimal ?? null) }}" placeholder="Placa">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Nascimento</label>
-                                <input type="text" class="datepicker_input form-control" id="exampleFormControlInput1" placeholder="00/00/0000">
+                                <label for="andnasc" class="form-label">Nascimento</label>
+                                <input type="text" class="datepicker_input form-control" id="andnasc" name="andnasc" value="{{ old('andnasc', $animal->andnasc ?? null) }}" placeholder="00/00/0000">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Entrada</label>
-                                <input type="text" class="datepicker_input form-control" id="exampleFormControlInput1" placeholder="00/00/0000">
+                                <label for="anentrada" class="form-label">Entrada</label>
+                                <input type="text" class="datepicker_input form-control" id="anentrada" name="anentrada" value="{{ old('anentrada', $animal->anentrada ?? null) }}" placeholder="00/00/0000">
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,7 @@
                             </div>
                         </div>
                     </div>
-                </fieldset>   
+                </fieldset>
             </form>
         </div>
     </div>

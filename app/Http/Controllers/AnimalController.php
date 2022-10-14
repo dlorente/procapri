@@ -15,6 +15,7 @@ class AnimalController extends Controller
     public function index()
     {
         $animals = Animal::search()
+            ->where('crcodigo', 13)
             ->orderBy('anregistro')
             ->paginate(10);
 
@@ -59,9 +60,9 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Animal $animal)
     {
-        //
+        return view('animals.form', compact('animal'));
     }
 
     /**
