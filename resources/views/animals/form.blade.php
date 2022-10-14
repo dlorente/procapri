@@ -1,5 +1,7 @@
 @extends('layouts.app')
+@push('styles')
 
+@endpush
 @section('content')
 <div class="container-fluid px-4">
     <h1 class="mt-4">Entrada de animais</h1>
@@ -36,13 +38,13 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Nascimento</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="00/00/0000">
+                                <input type="text" class="datepicker_input form-control" id="exampleFormControlInput1" placeholder="00/00/0000">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Entrada</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="00/00/0000">
+                                <input type="text" class="datepicker_input form-control" id="exampleFormControlInput1" placeholder="00/00/0000">
                             </div>
                         </div>
                     </div>
@@ -260,3 +262,6 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+
+@endpush
