@@ -2,7 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sexo;
 use App\Models\Animal;
+use App\Models\Barba;
+use App\Models\Brinco;
+use App\Models\Corno;
+use App\Models\Entrada;
+use App\Models\Finalidade;
+use App\Models\IndicaRegistro;
+use App\Models\Lote;
+use App\Models\Pelagem;
+use App\Models\Raca;
+use App\Models\Sangue;
 use Illuminate\Http\Request;
 
 class AnimalController extends Controller
@@ -29,7 +40,10 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        return view('animals.form');
+        $sexos = Sexo::all();
+        return view('animals.form', [
+            'sexos' => $sexos
+        ]);
     }
 
     /**
@@ -62,7 +76,32 @@ class AnimalController extends Controller
      */
     public function edit(Animal $animal)
     {
-        return view('animals.form', compact('animal'));
+        // dd($animal);
+        $sexos = Sexo::all();
+        $finalidades = Finalidade::all();
+        $entradas = Entrada::all();
+        $iRegistros = IndicaRegistro::all();
+        $racas = Raca::all();
+        $tiposSangue = Sangue::all();
+        $pelagens = Pelagem::all();
+        $cornos = Corno::all();
+        $barbas = Barba::all();
+        $brincos = Brinco::all();
+        $lotes = Lote::where('criador_id', $animal->criador_id)->get();
+        return view('animals.form', [
+            'sexos' => $sexos,
+            'animal' => $animal,
+            'finalidades' => $finalidades,
+            'entradas' => $entradas,
+            'iRegistros' => $iRegistros,
+            'racas' => $racas,
+            'tiposSangue' => $tiposSangue,
+            'pelagens' => $pelagens,
+            'cornos' => $cornos,
+            'barbas' => $barbas,
+            'brincos' => $brincos,
+            'lotes' => $lotes,
+        ]);
     }
 
     /**

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TFinal extends Model
+class Finalidade extends Model
 {
-    protected $table = 'tfinal';
+    protected $table = 'finalidade';
 
     protected $fillable = [
         'fnlsexo',
