@@ -11,20 +11,37 @@
     </ol>
     <div class="card mb-4">
         <div class="card-body">
-            <form action="">
+            @if (! isset($animal))
+                    <form method="POST" action="{{ route('animals.store') }}">
+            @else
+                <form method="POST" action="{{ route('animals.update', $animal) }}">
+                    @method('PUT')
+            @endif
+
+                @csrf
                 <fieldset>
                     <legend>Informações do Animal</legend>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="anregistro" class="form-label">Registro</label>
-                                <input type="text" class="form-control" id="anregistro" name="anregistro" value="{{ old('anregistro', $animal->anregistro ?? null) }}" placeholder="Registro">
+                                <input type="text" class="form-control @error('anregistro') is-invalid @enderror" id="anregistro" name="anregistro" value="{{ old('anregistro', $animal->anregistro ?? null) }}" placeholder="Registro">
+                                @error('anregistro')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="mb-3">
                                 <label for="annome" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="annome" name="annome" value="{{ old('annome', $animal->annome ?? null) }}" placeholder="Nome do animal">
+                                <input type="text" class="form-control @error('annome') is-invalid @enderror" id="annome" name="annome" value="{{ old('annome', $animal->annome ?? null) }}" placeholder="Nome do animal">
+                                @error('annome')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -32,26 +49,41 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="ananimal" class="form-label">Placa</label>
-                                <input type="text" class="form-control" id="ananimal" name="ananimal" value="{{ old('ananimal', $animal->ananimal ?? null) }}" placeholder="Placa">
+                                <input type="text" class="form-control @error('ananimal') is-invalid @enderror" id="ananimal" name="ananimal" value="{{ old('ananimal', $animal->ananimal ?? null) }}" placeholder="Placa">
+                                @error('ananimal')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="andnasc" class="form-label">Nascimento</label>
-                                <input type="text" class="datepicker_input form-control" id="andnasc" name="andnasc" value="{{ old('andnasc', $animal->andnasc ?? null) }}" placeholder="00/00/0000">
+                                <input type="text" class="datepicker_input form-control @error('andnasc') is-invalid @enderror" id="andnasc" name="andnasc" value="{{ old('andnasc', $animal->andnasc ?? null) }}" placeholder="00/00/0000">
+                                @error('andnasc')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="anentrada" class="form-label">Entrada</label>
-                                <input type="text" class="datepicker_input form-control" id="anentrada" name="anentrada" value="{{ old('anentrada', $animal->anentrada ?? null) }}" placeholder="00/00/0000">
+                                <input type="text" class="datepicker_input form-control @error('anentrada') is-invalid @enderror" id="anentrada" name="anentrada" value="{{ old('anentrada', $animal->anentrada ?? null) }}" placeholder="00/00/0000">
+                                @error('anentrada')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Sexo</label>
+                                <label for="sexo_id" class="form-label">Sexo</label>
                                 <select class="form-select" aria-label="Sexo" name="sexo_id" id="sexo_id">
                                     <option value="">-Selecione o sexo-</option>
                                     @foreach ($sexos as $sexo)
@@ -268,17 +300,20 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Local</label>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <label for="local_id" class="form-label">Local</label>
+                                <select class="form-select" aria-label="Lote" name="local_id" id="local_id">
+                                    <option value="">-Selecione o local-</option>
+                                    @foreach ($locais as $local)
+                                    <option 
+                                        {{ set_selected($animal->local_id ?? null, $local->id) }}
+                                        value="{{ $local->id }}">{{ $local->l2nome }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
                 </fieldset>
+                <button type="submit" class="btn btn-primary">Atualizar</button>
             </form>
         </div>
     </div>

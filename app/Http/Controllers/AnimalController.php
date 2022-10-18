@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnimalRequest;
 use App\Models\Sexo;
 use App\Models\Animal;
 use App\Models\Barba;
@@ -10,6 +11,7 @@ use App\Models\Corno;
 use App\Models\Entrada;
 use App\Models\Finalidade;
 use App\Models\IndicaRegistro;
+use App\Models\Local;
 use App\Models\Lote;
 use App\Models\Pelagem;
 use App\Models\Raca;
@@ -26,7 +28,7 @@ class AnimalController extends Controller
     public function index()
     {
         $animals = Animal::search()
-            ->where('crcodigo', 13)
+            ->where('crcodigo', 1)
             ->orderBy('anregistro')
             ->paginate(10);
 
@@ -41,8 +43,30 @@ class AnimalController extends Controller
     public function create()
     {
         $sexos = Sexo::all();
+        $finalidades = Finalidade::all();
+        $entradas = Entrada::all();
+        $iRegistros = IndicaRegistro::all();
+        $racas = Raca::all();
+        $tiposSangue = Sangue::all();
+        $pelagens = Pelagem::all();
+        $cornos = Corno::all();
+        $barbas = Barba::all();
+        $brincos = Brinco::all();
+        $lotes = Lote::where('criador_id', 1)->get();
+        $locais = Local::where('criador_id', 1)->get();
         return view('animals.form', [
-            'sexos' => $sexos
+            'sexos' => $sexos,
+            'finalidades' => $finalidades,
+            'entradas' => $entradas,
+            'iRegistros' => $iRegistros,
+            'racas' => $racas,
+            'tiposSangue' => $tiposSangue,
+            'pelagens' => $pelagens,
+            'cornos' => $cornos,
+            'barbas' => $barbas,
+            'brincos' => $brincos,
+            'lotes' => $lotes,
+            'locais' => $locais,
         ]);
     }
 
@@ -88,6 +112,7 @@ class AnimalController extends Controller
         $barbas = Barba::all();
         $brincos = Brinco::all();
         $lotes = Lote::where('criador_id', $animal->criador_id)->get();
+        $locais = Local::where('criador_id', $animal->criador_id)->get();
         return view('animals.form', [
             'sexos' => $sexos,
             'animal' => $animal,
@@ -101,6 +126,7 @@ class AnimalController extends Controller
             'barbas' => $barbas,
             'brincos' => $brincos,
             'lotes' => $lotes,
+            'locais' => $locais,
         ]);
     }
 
@@ -111,9 +137,13 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnimalRequest $request, Animal $animal)
     {
-        //
+        dd($request->all());
+        $animal->update($request->all());
+
+        return redirect()
+            ->route('animals.index');
     }
 
     /**
