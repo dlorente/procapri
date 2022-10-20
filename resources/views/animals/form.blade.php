@@ -60,23 +60,29 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="andnasc" class="form-label">Nascimento</label>
-                                <input type="text" class="datepicker_input form-control @error('andnasc') is-invalid @enderror" id="andnasc" name="andnasc" value="{{ old('andnasc', $animal->andnasc ?? null) }}" placeholder="00/00/0000">
-                                @error('andnasc')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                                    <input type="text" class="datepicker form-control @error('andnasc') is-invalid @enderror" id="andnasc" name="andnasc" value="{{ old('andnasc', $animal->andnasc ?? null) }}" placeholder="00/00/0000">
+                                    @error('andnasc')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="anentrada" class="form-label">Entrada</label>
-                                <input type="text" class="datepicker_input form-control @error('anentrada') is-invalid @enderror" id="anentrada" name="anentrada" value="{{ old('anentrada', $animal->anentrada ?? null) }}" placeholder="00/00/0000">
-                                @error('anentrada')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                                    <input type="text" class="datepicker form-control @error('anentrada') is-invalid @enderror" id="anentrada" name="anentrada" value="{{ old('anentrada', $animal->anentrada ?? null) }}" placeholder="00/00/0000">
+                                    @error('anentrada')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -265,13 +271,19 @@
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="andesmama" class="form-label">Desmama</label>
-                                <input type="text" class="form-control" id="andesmama" name="andesmama" value="{{ old('andesmama', $animal->andesmama ?? null) }}" placeholder="00/00/0000">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                                    <input type="text" class="datepicker form-control" id="andesmama" name="andesmama" value="{{ old('andesmama', $animal->andesmama ?? null) }}" placeholder="00/00/0000">
+                                </div>                                
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="andcoberta" class="form-label">Primeira cobertura</label>
-                                <input type="text" class="form-control" id="andcoberta" name="andcoberta" value="{{ old('andcoberta', $animal->andcoberta ?? null) }}" placeholder="00/00/0000">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                                    <input type="text" class="datepicker form-control" id="andcoberta" name="andcoberta" value="{{ old('andcoberta', $animal->andcoberta ?? null) }}" placeholder="00/00/0000">
+                                </div>                                
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -320,5 +332,9 @@
 </div>
 @endsection
 @push('scripts')
-
+<script>
+    $( function() {
+        $( ".datepicker" ).datepicker();
+    });
+</script>
 @endpush
