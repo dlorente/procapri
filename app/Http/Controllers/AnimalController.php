@@ -169,29 +169,29 @@ class AnimalController extends Controller
         }
 
         $animais = Animal::join('sexo', 'animal.sexo_id', '=', 'sexo.id')
-            ->where(function($query) use ($request) {
+            ->where(function ($query) use ($request) {
                 $query->where('anregistro', 'LIKE', $request->q . '%')
                     ->orWhere('ananimal', 'LIKE', $request->q . '%');
             })->whereNull('andatasai')
             ->where('criador_id', 137)
             ->where('sexo_id', $request->sexo_id)
             ->get()
-            ->map(function($animal) {
+            ->map(function ($animal) {
                 return [
-                    'id' => $animal->anregistro, 
+                    'id' => $animal->anregistro,
                     'text' => $animal->anregistro . ' --> ' . $animal->ananimal . ' --> ' . $animal->annome .
                      ' --> ' . $animal->anregistro . ' --> ' . $animal->sxcodigo
                 ];
             });
-            
+
         return response()->json($animais);
     }
 
-    public function animalExitForm(Animal $animal)
+    public function animalExitFormIndividual(Animal $animal)
     {
         $motivos = MotSaida::all();
         $causas = CauSaida::all();
-        return view('animals.form-saida', [
+        return view('animals.form-saida-individual', [
             'animal' => $animal,
             'motivos' => $motivos,
             'causas' => $causas,
@@ -199,6 +199,44 @@ class AnimalController extends Controller
     }
 
     public function animalExit(AnimalExitRequest $request, Animal $animal)
+    {
+        $animal->update($request->all());
+        return redirect()
+            ->route('animals.index')
+            ->withToastSuccess('Saída de animal realizada com sucesso!');
+    }
+
+    public function animalExitFormLote(Animal $animal)
+    {
+        $motivos = MotSaida::all();
+        $causas = CauSaida::all();
+        return view('animals.form-saida-individual', [
+            'animal' => $animal,
+            'motivos' => $motivos,
+            'causas' => $causas,
+        ]);
+    }
+
+    public function animalExitLote(AnimalExitRequest $request, Animal $animal)
+    {
+        $animal->update($request->all());
+        return redirect()
+            ->route('animals.index')
+            ->withToastSuccess('Saída de animal realizada com sucesso!');
+    }
+
+    public function animalExitFormLocal(Animal $animal)
+    {
+        $motivos = MotSaida::all();
+        $causas = CauSaida::all();
+        return view('animals.form-saida-individual', [
+            'animal' => $animal,
+            'motivos' => $motivos,
+            'causas' => $causas,
+        ]);
+    }
+
+    public function animalExitLocal(AnimalExitRequest $request, Animal $animal)
     {
         $animal->update($request->all());
         return redirect()
