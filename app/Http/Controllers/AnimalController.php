@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnimalExitRequest;
 use App\Http\Requests\AnimalRequest;
 use App\Models\Sexo;
 use App\Models\Animal;
 use App\Models\Barba;
 use App\Models\Brinco;
+use App\Models\CauSaida;
 use App\Models\Corno;
 use App\Models\Entrada;
 use App\Models\Finalidade;
 use App\Models\IndicaRegistro;
 use App\Models\Local;
 use App\Models\Lote;
+use App\Models\MotSaida;
 use App\Models\Pelagem;
 use App\Models\Raca;
 use App\Models\Sangue;
@@ -27,9 +30,11 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        $animals = Animal::search()
-            ->where('crcodigo', 1)
-            ->orderBy('anregistro')
+        $animals = Animal::join('sexo', 'animal.sexo_id', '=', 'sexo.id')
+            ->select('animal.*')
+            ->search()
+            ->where('animal.criador_id', 137)
+            ->orderBy('animal.anregistro')
             ->paginate(10);
 
         return view('animals.index', compact('animals'));
@@ -139,11 +144,11 @@ class AnimalController extends Controller
      */
     public function update(AnimalRequest $request, Animal $animal)
     {
-        dd($request->all());
         $animal->update($request->all());
 
         return redirect()
-            ->route('animals.index');
+            ->route('animals.index')
+            ->withToastSuccess('Animal atualizado com sucesso!');
     }
 
     /**
@@ -157,18 +162,47 @@ class AnimalController extends Controller
         //
     }
 
-    public function buscaAnimal(Request $request)
+    public function animalSearch(Request $request)
     {
         if (! $request->q) {
             return response()->json([]);
         }
-        $animal = Animal::whereLike('anregistro', $request->q)
-            ->orWhere('ananimal', 'like', '%' . $request->q . '%')
-            ->whereNull('andatasai')
-            ->where('criador_id', 1)
-            ->where('sexo_id', $request->sexo_id)
-            ->get();
 
-        return 
+        $animais = Animal::join('sexo', 'animal.sexo_id', '=', 'sexo.id')
+            ->where(function($query) use ($request) {
+                $query->where('anregistro', 'LIKE', $request->q . '%')
+                    ->orWhere('ananimal', 'LIKE', $request->q . '%');
+            })->whereNull('andatasai')
+            ->where('criador_id', 137)
+            ->where('sexo_id', $request->sexo_id)
+            ->get()
+            ->map(function($animal) {
+                return [
+                    'id' => $animal->anregistro, 
+                    'text' => $animal->anregistro . ' --> ' . $animal->ananimal . ' --> ' . $animal->annome .
+                     ' --> ' . $animal->anregistro . ' --> ' . $animal->sxcodigo
+                ];
+            });
+            
+        return response()->json($animais);
+    }
+
+    public function animalExitForm(Animal $animal)
+    {
+        $motivos = MotSaida::all();
+        $causas = CauSaida::all();
+        return view('animals.form-saida', [
+            'animal' => $animal,
+            'motivos' => $motivos,
+            'causas' => $causas,
+        ]);
+    }
+
+    public function animalExit(AnimalExitRequest $request, Animal $animal)
+    {
+        $animal->update($request->all());
+        return redirect()
+            ->route('animals.index')
+            ->withToastSuccess('Saída de animal realizada com sucesso!');
     }
 }

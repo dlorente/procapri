@@ -7,7 +7,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 class Date implements CastsAttributes
 {
     /**
-     * Cast the given value.
+     * Retorna valor convertido para as views.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
@@ -18,11 +18,11 @@ class Date implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
-        return date_br($value);
+        return ! $value ? null : date_br($value);
     }
 
     /**
-     * Prepare the given value for storage.
+     * Prepara o valor fornecido para armazenamento.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
@@ -33,6 +33,7 @@ class Date implements CastsAttributes
      */
     public function set($model, $key, $value, $attributes)
     {
-        return date_db($value);
+        return ! $value ? null : date_db($value);
     }
 }
+

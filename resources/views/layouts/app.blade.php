@@ -41,6 +41,7 @@
         <div id="layoutSidenav">
             @include('layouts/sidebar')
             <div id="layoutSidenav_content">
+                @include('sweetalert::alert')
                 <main>
                     @yield('content')
                 </main>

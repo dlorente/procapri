@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CauSaida extends Model
 {
-    protected $table = 'agente';
+    protected $table = 'causaida';
 
     protected $fillable = [
         'csnome',

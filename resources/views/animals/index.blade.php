@@ -4,7 +4,7 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">Entrada de animais</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
         <li class="breadcrumb-item active">Entrada de animais</li>
     </ol>
     <div class="card mb-4">
@@ -41,9 +41,9 @@
                 <thead>
                     <tr>
                         <th>Registro</th>
+                        <th>Placa</th>
                         <th>Nome do animal</th>
-                        <th>Nome da mãe</th>
-                        <th>Nome do pai</th>
+                        <th>Sexo</th>
                         <th class="text-center w-15">Ações</th>
                     </tr>
                 </thead>
@@ -51,10 +51,14 @@
                     @forelse($animals as $animal)
                         <tr>
                             <td>{{ $animal->anregistro }}</td>
+                            <td>{{ $animal->ananimal }}</td>
                             <td>{{ $animal->annome }}</td>
-                            <td>{{ $animal->anomemae }}</td>
-                            <td>{{ $animal->anomepai }}</td>
+                            <td>{{ $animal->sexo->sxnome }}</td>
                             <td class="text-center">
+                                <a href="{{ route('animals.exit.form', $animal) }}" onclick="loadModal(event, this)" class="btn {{ $animal->andatasai ? 'btn-secondary' : 'btn-primary' }}" title="Saída do animal">
+                                    <i class="fa-solid fa-stairs"></i>
+                                </a>
+
                                 <a href="{{ route('animals.show', $animal) }}" onclick="loadModal(event, this)" class="btn btn-secondary" title="Visualizar Animal">
                                     <i class="fa fa-search"></i>
                                 </a>

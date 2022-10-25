@@ -6,7 +6,7 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">Entrada de animais</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
         <li class="breadcrumb-item active">Entrada de animais</li>
     </ol>
     <div class="card mb-4">
@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
-                                <label for="anregistro" class="form-label">Registro</label>
+                                <label for="anregistro" class="form-label">Registro<star>*</star></label>
                                 <input type="text" class="form-control @error('anregistro') is-invalid @enderror" id="anregistro" name="anregistro" value="{{ old('anregistro', $animal->anregistro ?? null) }}" placeholder="Registro">
                                 @error('anregistro')
                                 <span class="invalid-feedback" role="alert">
@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-9">
                             <div class="mb-3">
-                                <label for="annome" class="form-label">Nome</label>
+                                <label for="annome" class="form-label">Nome<star>*</star></label>
                                 <input type="text" class="form-control @error('annome') is-invalid @enderror" id="annome" name="annome" value="{{ old('annome', $animal->annome ?? null) }}" placeholder="Nome do animal">
                                 @error('annome')
                                 <span class="invalid-feedback" role="alert">
@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="ananimal" class="form-label">Placa</label>
+                                <label for="ananimal" class="form-label">Placa<star>*</star></label>
                                 <input type="text" class="form-control @error('ananimal') is-invalid @enderror" id="ananimal" name="ananimal" value="{{ old('ananimal', $animal->ananimal ?? null) }}" placeholder="Placa">
                                 @error('ananimal')
                                 <span class="invalid-feedback" role="alert">
@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="andnasc" class="form-label">Nascimento</label>
+                                <label for="andnasc" class="form-label">Nascimento<star>*</star></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                                     <input type="text" class="datepicker form-control @error('andnasc') is-invalid @enderror" id="andnasc" name="andnasc" value="{{ old('andnasc', $animal->andnasc ?? null) }}" placeholder="00/00/0000">
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="anentrada" class="form-label">Entrada</label>
+                                <label for="anentrada" class="form-label">Entrada<star>*</star></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                                     <input type="text" class="datepicker form-control @error('anentrada') is-invalid @enderror" id="anentrada" name="anentrada" value="{{ old('anentrada', $animal->anentrada ?? null) }}" placeholder="00/00/0000">
@@ -89,8 +89,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="sexo_id" class="form-label">Sexo</label>
-                                <select class="form-select" aria-label="Sexo" name="sexo_id" id="sexo_id">
+                                <label for="sexo_id" class="form-label">Sexo<star>*</star></label>
+                                <select class="form-select @error('sexo_id') is-invalid @enderror" aria-label="Sexo" name="sexo_id" id="sexo_id">
                                     <option value="">-Selecione o sexo-</option>
                                     @foreach ($sexos as $sexo)
                                     <option 
@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Finalidade</label>
+                                <label for="finalidade_id" class="form-label">Finalidade<star>*</star></label>
                                 <select class="form-select" aria-label="Sexo" name="finalidade_id" id="finalidade_id">
                                     <option value="">-Selecione a finalidade-</option>
                                     @foreach ($finalidades as $finalidade)
@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Motivo</label>
+                                <label for="entrada_id" class="form-label">Motivo<star>*</star></label>
                                 <select class="form-select" aria-label="Sexo" name="entrada_id" id="entrada_id">
                                     <option value="">-Selecione o motivo-</option>
                                     @foreach ($entradas as $entrada)

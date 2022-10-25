@@ -19,9 +19,13 @@ Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('animals-search', [AnimalController::class, 'animalSearch'])->name('animals.search');
+    Route::get('animals/{animal}/exit', [AnimalController::class, 'animalExitForm'])->name('animals.exit.form');
+    Route::post('animals/{animal}/exit', [AnimalController::class, 'animalExit'])->name('animals.exit');
     Route::resources([
         'animals' => AnimalController::class,
     ]);
+
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
