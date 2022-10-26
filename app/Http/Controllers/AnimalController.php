@@ -165,7 +165,27 @@ class AnimalController extends Controller
     public function animalSearch(Request $request)
     {
         if (! $request->q) {
-            return response()->json([]);
+            return response()->json([1]);
+        }
+
+        if(!isset($request->sexo_id)) {
+            $animais = Animal::where(function ($query) use ($request) {
+                $query->where('anregistro', 'LIKE', $request->q . '%')
+                    ->orWhere('ananimal', 'LIKE', $request->q . '%');
+                })
+                ->whereNull('andatasai')
+                ->where('criador_id', 137)
+                ->get()
+                ->map(function ($animal) {
+                    return [
+                        'id' => $animal->anregistro,
+                        'animal_id' => $animal->id,
+                        'text' => $animal->anregistro . ' --> ' . $animal->ananimal . ' --> ' . $animal->annome .
+                         ' --> ' . $animal->anregistro . ' --> ' . $animal->sxcodigo
+                    ];
+                });
+            
+            return response()->json($animais);
         }
 
         $animais = Animal::join('sexo', 'animal.sexo_id', '=', 'sexo.id')

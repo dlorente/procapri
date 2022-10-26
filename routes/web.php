@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AnimalExitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resources([
         'animals' => AnimalController::class,
     ]);
+
+    Route::get('animal-exit', [AnimalExitController::class, 'index'])->name('animal-exit');
+    Route::get('animal-individual-exit-form/{animal}', [AnimalExitController::class, 'individualExitForm'])->name('animal-individual-exit-form');
+    Route::post('animal-individual-exit/{animal}', [AnimalExitController::class, 'individualExit'])->name('animal-individual-exit');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
