@@ -9,7 +9,7 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">Saída de animais</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="{{ route('animals.index') }}">Animais</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
         <li class="breadcrumb-item active">Saída de animais</li>
     </ol>
     <div class="card mb-4">
@@ -27,23 +27,24 @@
               </ul>
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="individual-exit" role="tabpanel" aria-labelledby="individual-tab">
-                    <div class="row">
+                    @include('animal-exit.tabs.animal-list')                    
+                </div>
+                <div class="tab-pane fade" id="lote-exit" role="tabpanel" aria-labelledby="lote-exit-tab">
+                    <div class="row mb-3">
                         <div class="col-md-4">
-                            <div class="input-group mb-3">
-                                <select id="animal" class="form-select">
-                                    <option value=""></option>
-                                </select>
-                              </div>
+                            <select name="lote_id" id="lote_id" class="form-select">
+                                <option></option>
+                                @foreach($lotes as $lote)
+                                <option value="{{ $lote->id }}">{{ $lote->l1nome }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                    <div id="individual-form">
-                        @error('andatasai')
-                            @include('animal-exit.tabs.individual-exit-form')
-                        @enderror
-                    </div>
+                    <div id="lote"></div>
                 </div>
-                <div class="tab-pane fade" id="lote-exit" role="tabpanel" aria-labelledby="lote-exit-tab">Saída em lote</div>
-                <div class="tab-pane fade" id="local-exit" role="tabpanel" aria-labelledby="local-exit-tab">Saída de local</div>
+                <div class="tab-pane fade" id="local-exit" role="tabpanel" aria-labelledby="local-exit-tab">
+                    
+                </div>
               </div>              
         </div>
     </div>
@@ -52,34 +53,15 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $('#animal').select2( {
-            placeholder: 'Número do registro ou placa',
-            theme: 'bootstrap-5',
-            minimumInputLength: 3,
-            allowClear: true,
-            ajax: {
-                dataType: 'json',
-                delay: 250,                
-                type: 'GET',
-                url: '{{ route("animals.search") }}',
-                data: function (params) {
-                    return {
-                        q: params.term // search term
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                },
-            }
+        $('#lote_id').select2( {
+            placeholder: 'Selecione o lote',
+            theme: 'bootstrap-5',            
         });
 
-        $('#animal').on('select2:select', function (e) {
-            var data = e.params.data;
-            $.get(`animal-individual-exit-form/${data.animal_id}`)
+        $('#lote_id').on('select2:select', function (e) {
+            $.get(`animal-exit/lote-list-form/${$('#lote_id').val()}`)
                 .done(data => {
-                    $('#individual-form').html(data)
+                    $('#lote').html(data)
                 });
         });
     </script>

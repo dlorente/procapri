@@ -6,8 +6,8 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">Saída de animais</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="{{ route('animals.index') }}">Animais</a></li>
-        <li class="breadcrumb-item active">Saída de animais</li>
+        <li class="breadcrumb-item"><a href="{{ route('animal-exit') }}">Saída de animais</a></li>
+        <li class="breadcrumb-item active">Saída de individual</li>
     </ol>
     <div class="card mb-4">
         <div class="card-body">
