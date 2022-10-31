@@ -57,15 +57,27 @@ class AnimalChangeLocationController extends Controller
 
     public function animalLocalListForm(Local $local)
     {
-        $animals = Animal::where('local_id', $local->id)
-            ->whereNull('andatasai')
+        $animals = Animal::leftJoin('local', function($join) {
+            $join->on('animal.local_id', '=', 'local.id')
+                ->where('animal.criador_id', '=', 'local.criador_id');
+            })
+            ->leftJoin('lote', function($join) {
+                $join->on('animal.lote_id', '=', 'lote.id')
+                    ->where('animal.criador_id', '=', 'lote.criador_id');
+            })
+            ->where(function($query) {
+                $query->whereNull('animal.andatasai')
+                    ->orWhere('animal.andatasai', '=', '0000-00-00');
+            })
+            ->select('animal.*')
+            ->where('animal.criador_id', 137)
+            ->where('animal.local_id', $local->id)
             ->get();
-        $motivos = MotSaida::all();
-        $causas = CauSaida::all();
+
+        $locals = Local::where('criador_id', 137)->get();
         return view('animal-change-location.animal-local-list-form', [
             'animals' => $animals,
-            'motivos' => $motivos,
-            'causas' => $causas,
+            'locals' => $locals,
         ]);
     }
 
@@ -77,7 +89,7 @@ class AnimalChangeLocationController extends Controller
         }
         return redirect()
             ->route('animal-change-location')
-            ->withToastSuccess('Movimentação realizada com sucesso!'); 
+            ->withToastSuccess('Movimentação de lote realizada com sucesso!'); 
     }
 
     public function LocalChangeLocation(AnimalLocalChangeLocationRequest $request)
@@ -88,7 +100,7 @@ class AnimalChangeLocationController extends Controller
         }
         return redirect()
             ->route('animal-change-location')
-            ->withToastSuccess('Saída de animal, por local, realizada com sucesso!'); 
+            ->withToastSuccess('Movimentação de local realizada com sucesso!'); 
     }
 
     public function individualChangeLocationForm(Animal $animal)

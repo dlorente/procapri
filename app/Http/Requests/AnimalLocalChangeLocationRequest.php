@@ -24,10 +24,8 @@ class AnimalLocalChangeLocationRequest extends FormRequest
     public function rules()
     {
         return [
-            'animal_id' => ['required', 'array'],
-            'andatasai' => ['required', 'date_format:"d/m/Y"'],
-            'motsaida_id' => ['required', 'exists:motsaida,id'],
-            'causaida_id' => ['required', 'exists:causaida,id'],
+            'animal_id' => ['required', 'array'],            
+            'local_id' => ['required', 'exists:local,id'],
         ];
     }
 }
