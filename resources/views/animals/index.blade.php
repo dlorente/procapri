@@ -55,10 +55,6 @@
                             <td>{{ $animal->annome }}</td>
                             <td>{{ $animal->sexo->sxnome }}</td>
                             <td class="text-center">
-                                <a href="{{ route('animals.exit.form', $animal) }}" onclick="loadModal(event, this)" class="btn {{ $animal->andatasai ? 'btn-secondary' : 'btn-primary' }}" title="Saída do animal">
-                                    <i class="fa-solid fa-stairs"></i>
-                                </a>
-
                                 <a href="{{ route('animals.show', $animal) }}" onclick="loadModal(event, this)" class="btn btn-secondary" title="Visualizar Animal">
                                     <i class="fa fa-search"></i>
                                 </a>

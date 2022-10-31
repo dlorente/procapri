@@ -82,9 +82,19 @@ class Animal extends BaseModel
         return $this->belongsTo(MotSaida::class);
     }
 
-    public function motivoEntrada()
+    public function entrada()
     {
         return $this->belongsTo(Entrada::class);
+    }
+
+    public function lote()
+    {
+        return $this->belongsTo(Lote::class);
+    }
+
+    public function local()
+    {
+        return $this->belongsTo(Local::class);
     }
 
     public function causaSaida()

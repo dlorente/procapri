@@ -43,7 +43,17 @@
                     <div id="lote"></div>
                 </div>
                 <div class="tab-pane fade" id="local-exit" role="tabpanel" aria-labelledby="local-exit-tab">
-                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select name="local_id" id="local_id" class="form-select">
+                                <option></option>
+                                @foreach($locals as $local)
+                                <option value="{{ $local->id }}">{{ $local->l2nome }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div id="local"></div>
                 </div>
               </div>              
         </div>
@@ -58,10 +68,22 @@
             theme: 'bootstrap-5',            
         });
 
+        $('#local_id').select2( {
+            placeholder: 'Selecione o lote',
+            theme: 'bootstrap-5',            
+        });
+
         $('#lote_id').on('select2:select', function (e) {
             $.get(`animal-exit/lote-list-form/${$('#lote_id').val()}`)
                 .done(data => {
                     $('#lote').html(data)
+                });
+        });
+
+        $('#local_id').on('select2:select', function (e) {
+            $.get(`animal-exit/local-list-form/${$('#local_id').val()}`)
+                .done(data => {
+                    $('#local').html(data)
                 });
         });
     </script>
