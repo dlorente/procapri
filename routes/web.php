@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalExitController;
 use App\Http\Controllers\AnimalChangeLocationController;
+use App\Http\Controllers\AnimalHeatController;
 use App\Http\Controllers\AnimalWeaningController;
 
 /*
@@ -46,6 +47,16 @@ Route::middleware(['auth'])->group(function () {
 
     // Animal weaning
     Route::get('animal-weaning', [AnimalWeaningController::class, 'index'])->name('animal-weaning');
+
+    //Animal on Heat
+    Route::resources([
+        'animal-heat' => AnimalHeatController::class,
+    ]);
+    // Route::get('animal-heat', [AnimalHeatController::class, 'index'])->name('animal-heat.index');
+    // Route::get('animal-heat/{cio}', [AnimalHeatController::class, 'show'])->name('animal-heat.show');
+    // Route::get('animal-heat/{cio}/edit', [AnimalHeatController::class, 'edit'])->name('animal-heat.edit');
+    // Route::get('animal-heat/{cio}/destroy', [AnimalHeatController::class, 'destroy'])->name('animal-heat.destroy');
+    // Route::get('animal-heat/create', [AnimalHeatController::class, 'create'])->name('animal-heat.create');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -25,6 +25,20 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
+function sumDaysToDate(dateString, numberOfDays) {
+    let tmp = dateString.split('/')
+    let date = new Date(`${tmp[2]}-${tmp[1]}-${tmp[0]} 00:00:00.000`)
+    let newDate = date.setDate(date.getDate() + parseInt(numberOfDays))
+    newDate = new Date(newDate)
+    let day = newDate.getDate()
+    day = day <= 9 ? `0${day}` : `${day}`
+    let month = newDate.getMonth() + 1
+    month = month <= 9 ? `0${month}` : `${month}`
+    let year = newDate.getFullYear()
+
+    return `${day}/${month}/${year}`
+}
+
 jQuery(function($){
     $.datepicker.regional['pt-BR'] = {
         closeText: 'Fechar',

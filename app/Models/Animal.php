@@ -70,6 +70,7 @@ class Animal extends BaseModel
         'andesmama' => Date::class,
         'andcoberta' => Date::class,
         'andatasai' => Date::class,
+        'cidata' => Date::class,
     ];
 
     public function sexo()
@@ -105,6 +106,11 @@ class Animal extends BaseModel
     public function finalidade()
     {
         return $this->belongsTo(Finalidade::class);
+    }
+
+    public function cio()
+    {
+        return $this->hasMany(Cio::class);
     }
 
 }

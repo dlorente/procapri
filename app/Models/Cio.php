@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Casts\Date;
+use App\Models\BaseModel;
 
-class Cio extends Model
+class Cio extends BaseModel
 {
     protected $table = 'cio';
 
@@ -28,6 +28,19 @@ class Cio extends Model
         'ciflag',
     ];
 
+    protected $filters = [
+        'animal.anregistro',
+        'animal.ananimal',
+        'animal.annome',
+    ];
+
+    protected $casts = [
+        'cicobertu' => Date::class,
+        'cidata' => Date::class,
+        'cidatapre' => Date::class,
+        'cidtdiagnosticogest' => Date::class,
+    ];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class);
@@ -38,4 +51,5 @@ class Cio extends Model
         return $this->belongsTo(Criador::class);
     }
 
+    
 }

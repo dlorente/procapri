@@ -181,14 +181,15 @@ class AnimalController extends Controller
                         'id' => $animal->anregistro,
                         'animal_id' => $animal->id,
                         'text' => $animal->anregistro . ' --> ' . $animal->ananimal . ' --> ' . $animal->annome .
-                         ' --> ' . $animal->anregistro . ' --> ' . $animal->sxcodigo
+                         ' --> ' . $animal->anregistro . ' --> ' . $animal->sexo->sxnome
                     ];
                 });
             
-            return response()->json($animais);
+            return response()->json(['results' => $animais]);
         }
 
         $animais = Animal::join('sexo', 'animal.sexo_id', '=', 'sexo.id')
+            ->select('animal.*')
             ->where(function ($query) use ($request) {
                 $query->where('anregistro', 'LIKE', $request->q . '%')
                     ->orWhere('ananimal', 'LIKE', $request->q . '%');
@@ -198,13 +199,15 @@ class AnimalController extends Controller
             ->get()
             ->map(function ($animal) {
                 return [
-                    'id' => $animal->anregistro,
-                    'text' => $animal->anregistro . ' --> ' . $animal->ananimal . ' --> ' . $animal->annome .
-                     ' --> ' . $animal->anregistro . ' --> ' . $animal->sxcodigo
+                    'id' => $animal->id,
+                    'text' => $animal->anregistro . ' --> ' . $animal->sexo->sxnome,
+                    'anregistro' => $animal->anregistro,
+                    'annome' => $animal->annome,
+                    'ananimal' => $animal->ananimal,
                 ];
             });
 
-        return response()->json($animais);
+        return response()->json(['results' => $animais]);
     }
 
     public function animalExitFormIndividual(Animal $animal)
