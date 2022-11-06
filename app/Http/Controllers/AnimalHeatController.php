@@ -9,11 +9,14 @@ use App\Models\Animal;
 use App\Models\CauSaida;
 use App\Models\MotSaida;
 use App\Http\Requests\AnimalChangeLocationRequest;
+use App\Http\Requests\AnimalHeatRequest;
 use App\Http\Requests\AnimalLoteChangeLocationRequest;
 use App\Http\Requests\AnimalLocalChangeLocationRequest;
 use App\Models\ConfPrenha;
+use App\Models\TPCio;
 use App\Models\TPCobertura;
 use App\Models\TPExGest;
+use Illuminate\Http\Request;
 
 class AnimalHeatController extends Controller
 {
@@ -37,11 +40,75 @@ class AnimalHeatController extends Controller
         $tpcoberturas = TPCobertura::all();
         $confprenhas = ConfPrenha::all();
         $tpexgests = TPExGest::all();
+        $tpcios = TPCio::all();
         return view('animal-heat.form', [
             'tpcoberturas' => $tpcoberturas,
             'confprenhas' => $confprenhas,
             'tpexgests' => $tpexgests,
+            'tpcios' => $tpcios,
         ]);
+    }
+
+    public function store(AnimalHeatRequest $request)
+    {
+        $animal = Animal::find($request->animal_id);
+        $request['anregistro'] = $animal->anregistro;
+        $request['cpcodigo'] = null;
+        if($request->confprenha_id) {
+            $confp = ConfPrenha::find($request->confprenha_id);
+            $request['cpcodigo'] = $confp->cpcodigo;
+        }
+        $request['cobcodigo'] = null;
+        if($request->tpcobertura_id) {
+            $confp = TPCobertura::find($request->tpcobertura_id);
+            $request['cobcodigo'] = $confp->cobcodigo;
+        }
+        $request['exgcodigo'] = null;
+        if($request->tpexgest_id) {
+            $confp = TPExGest::find($request->tpexgest_id);
+            $request['exgcodigo'] = $confp->exgcodigo;
+        }
+        $request['ciocodigo'] = null;
+        if($request->tpcio_id) {
+            $confp = TPCio::find($request->tpcio_id);
+            $request['ciocodigo'] = $confp->ciocodigo;
+        }
+        dd($request->all());
+    }
+
+    public function update(Request $request, Cio $animal_heat)
+    {
+        $animal = Animal::find($request->animal_id);
+        $request['anregistro'] = $animal->anregistro;
+        $request['cpcodigo'] = null;
+        if($request->confprenha_id) {
+            $confp = ConfPrenha::find($request->confprenha_id);
+            $request['cpcodigo'] = $confp->cpcodigo;
+        }
+        $request['cobcodigo'] = null;
+        if($request->tpcobertura_id) {
+            $confp = TPCobertura::find($request->tpcobertura_id);
+            $request['cobcodigo'] = $confp->cobcodigo;
+        }
+        $request['exgcodigo'] = null;
+        if($request->tpexgest_id) {
+            $confp = TPExGest::find($request->tpexgest_id);
+            $request['exgcodigo'] = $confp->exgcodigo;
+        }
+
+        $request['ciocodigo'] = null;
+        if($request->tpcio_id) {
+            $confp = TPCio::find($request->tpcio_id);
+            $request['ciocodigo'] = $confp->ciocodigo;
+        }
+
+        // dd($request->all());
+        
+        $animal_heat->update($request->all());
+
+        return redirect()
+            ->route('animal-heat.index')
+            ->withToastSuccess('Cio (Monta campo) atualizado com sucesso!');
     }
 
     public function show()
@@ -54,11 +121,13 @@ class AnimalHeatController extends Controller
         $tpcoberturas = TPCobertura::all();
         $confprenhas = ConfPrenha::all();
         $tpexgests = TPExGest::all();
+        $tpcios = TPCio::all();
         return view('animal-heat.form', [
             'animal_heat' => $animal_heat,
             'tpcoberturas' => $tpcoberturas,
             'confprenhas' => $confprenhas,
             'tpexgests' => $tpexgests,
+            'tpcios' => $tpcios,
         ]);
     }
 

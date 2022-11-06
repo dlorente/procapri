@@ -26,7 +26,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="animal_id" class="form-label">Registro<star>*</star></label>
-                                <select class="form-select select2" aria-label="Lote" name="animal_id" id="animal_id">
+                                <select class="form-select select2 @error('animal_id') is-invalid @enderror" aria-label="Lote" name="animal_id" id="animal_id">
                                     @if(isset($animal_heat))
                                         <option value="{{ $animal_heat->animal->id }}">{{ old('anregistro', $animal_heat->animal->anregistro ?? null) }}</option>
                                     @endif
@@ -42,13 +42,13 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="mb-3">
-                                <label>Placa</label>
+                                <label class="form-label">Placa</label>
                                 <input type="text" class="form-control" id="ananimal" disabled value="{{ old('ananimal', $animal_heat->animal->ananimal ?? null) }}">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
-                                <label>Nome do animal</label>
+                                <label class="form-label">Nome do animal</label>
                                 <input type="text" class="form-control" id="annome" disabled value="{{ old('annome', $animal_heat->animal->annome ?? null) }}">
                             </div>
                         </div>
@@ -70,10 +70,10 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
-                                <label class="form-label" for="cinanimal">Número do bode<star>*</star></label>
+                                <label class="form-label" for="cinanimal">Número do bode</label>
                                 <select class="form-select select2" aria-label="Lote" name="cinanimal" id="cinanimal">
                                     @if(isset($animal_heat))
-                                        <option value="{{ $animal_heat->animal->anregistro }}">{{ $animal_heat->animal->anregistro }}</option>
+                                        <option value="{{ $animal_heat->cinanimal }}">{{ $animal_heat->cinanimal }}</option>
                                     @endif
                                 </select>
                                 @error('cinanimal')
@@ -117,8 +117,26 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="mb-3">
+                                <label class="form-label" for="tpcio_id">Tipo do cio<star>*</star></label>
+                                <select class="form-select @error('tpcio_id') is-invalid @enderror" name="tpcio_id" id="tpcio_id" required>
+                                    <option value="">-Selecione-</option>
+                                    @foreach ($tpcios as $tpcio)
+                                    <option 
+                                        {{ set_selected($animal_heat->tpcio_id ?? null, $tpcio->id) }}
+                                        value="{{ $tpcio->id }}">{{ $tpcio->cionome }}</option>
+                                    @endforeach
+                                </select>
+                                @error('tpcio_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="mb-3">
                                 <label class="form-label" for="tpcobertura_id">Tipo de cobertura<star>*</star></label>
-                                <select class="form-select @error('tpcobertura_id') is-invalid @enderror" aria-label="Sexo" name="tpcobertura_id" id="tpcobertura_id">
+                                <select class="form-select @error('tpcobertura_id') is-invalid @enderror" name="tpcobertura_id" id="tpcobertura_id" required>
                                     <option value="">-Selecione-</option>
                                     @foreach ($tpcoberturas as $tpcobertura)
                                     <option 
@@ -133,7 +151,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-3 cidose-div @if(isset($animal_heat)) {{ $animal_heat <> '1' ? 'd-none' : '' }} @endif">
+                        <div class="col-3 cidose-div @if(isset($animal_heat)) {{ $animal_heat->cobcodigo <> 'I' ? 'd-none' : '' }} @endif">
                             <div class="mb-3">
                                 <label class="form-label" for="cidose">Número de doses</label>
                                 <input type="text" class="form-control" name="cidose" value="{{ old('cidose', $animal_heat->cidose ?? null) }}">
@@ -178,14 +196,14 @@
                                     <option value="">-Selecione-</option>
                                     @foreach($confprenhas as $confprenha)
                                     <option 
-                                        {{ set_selected($animal_heat->confprenha_id ?? null, $tpcobertura->id) }}
+                                        {{ set_selected($animal_heat->confprenha_id ?? null, $confprenha->id) }}
                                         value="{{ $confprenha->id }}">{{ $confprenha->cpnome }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-6">
-                            <label for="tpexgest_id" class="form-label">Confirmação de gestação</label>
+                            <label for="tpexgest_id" class="form-label">Tipo de exame</label>
                             <select name="tpexgest_id" id="tpexgest_id" class="form-control">
                                 <option value="">-Selecione-</option>
                                 @foreach($tpexgests as $tpexgest)
@@ -279,6 +297,8 @@
                 $('.cidose-div').addClass('d-none')
             }
         })
+
+        $("#cidtdiagnosticogest").datepicker();
     });
 </script>
 @endpush

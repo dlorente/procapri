@@ -93,7 +93,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     Cadastro de animais
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('animal-heat.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de cios
                 </a>

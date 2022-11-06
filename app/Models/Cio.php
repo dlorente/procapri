@@ -26,6 +26,12 @@ class Cio extends BaseModel
         'tmcodigo',
         'cpcodigo',
         'ciflag',
+        'confprenha_id',
+        'tpcio_id',
+        'tpexgest_id',
+        'tpcobertura_id',
+        'criador_id',
+        'animal_id',
     ];
 
     protected $filters = [
