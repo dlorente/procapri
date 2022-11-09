@@ -63,3 +63,66 @@ jQuery(function($){
 });
 
 $('.date').mask('00/00/0000')
+
+function confirmDelete(itemId, formId = 'btn-delete') {
+
+    Swal.fire({
+        title: 'Atenção',
+        text: 'Deseja realmente remover o registro selecionado?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#aaa',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sim, remover!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $(`#${formId}-${itemId}`).submit()
+        }
+      })
+}
+
+function logout() {
+    event.preventDefault()
+
+    Swal.fire({
+        title: 'Procapri',
+        text: 'Deseja realmente sair do sistema?',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sair',
+        confirmButtonColor: '#0d4b85',
+    }).then(result => {
+
+        if (! result.value) {
+            return false
+        }
+
+        return $('#logout-form').submit()
+    })
+}
+
+function getAddressData(input) {
+    let cep = this.value
+
+}
+
+async function getAddress(input) {
+    let cep = input.value
+    cep = cep.replace(/\D/g, '')
+    const regexCep = /^[0-9]{8}$/
+    alert(regexCep.test(cep))
+    if(regexCep.test(cep)) {
+        let response = await fetch(`https://viacep.com.br/ws/${cep}/json`)
+        const jsonResponse = await response.json()
+        console.log(jsonResponse)
+    }
+}
+
+function sAlert(text) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: text,
+      })
+}

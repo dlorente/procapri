@@ -6,7 +6,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <form method="GET" action="{{ route('animal-change-location') }}">
+                <form method="GET" action="{{ route('animal-weaning.index') }}">
                     <div class="input-group mb-3">
                         <input class="form-control" name="search" value="{{ request('search') ?? '' }}" placeholder="Pesquisar pelo animal..."/>
                         <div class="input-group-append">
@@ -36,7 +36,7 @@
                         <td>{{ $animal->annome }}</td>
                         <td>{{ $animal->sexo->sxnome }}</td>
                         <td class="text-center">
-                            <a href="{{ route('individual-change-location-form', $animal) }}" class="btn btn-primary" title="Saída do animal">
+                            <a href="{{ route('individual-weaning-form', $animal) }}" class="btn btn-primary" title="Cadastrar desmame do animal">
                                 <i class="fa-solid fa-arrows-left-right-to-line"></i>
                             </a>
                         </td>

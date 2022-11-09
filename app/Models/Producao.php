@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Casts\Date;
+use App\Models\BaseModel;
 
-class Producao extends Model
+class Producao extends BaseModel
 {
-    protected $table = 'semen';
+    protected $table = 'producao';
 
     protected $fillable = [
+        'animal_id',
+        'criador_id',
+        'ocolact_id',
+        'anregistro',
+        'crcodigo',
         'prdatacon',
         'prplord1',
         'prplord2',
@@ -18,6 +23,16 @@ class Producao extends Model
         'prproteina',
         'prextseco'
     ];
+
+    protected $filters = [
+        'animal.anregistro',
+        'animal.ananimal',
+        'animal.annome',
+    ];
+
+    protected $casts = [
+        'prdatacon' => Date::class,
+    ]; 
 
     public function ocoLact()
     {

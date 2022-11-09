@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('content')
-<div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+<div class="card-header"><h3 class="text-center font-weight-light my-4">Procapri - Login</h3></div>
 <div class="card-body">
     <form method="POST" action="{{ route('login') }}">
         @csrf

@@ -33,7 +33,7 @@ class AnimalController extends Controller
         $animals = Animal::join('sexo', 'animal.sexo_id', '=', 'sexo.id')
             ->select('animal.*')
             ->search()
-            ->where('animal.criador_id', 137)
+            ->where('animal.criador_id', auth()->user()->farmerId())
             ->orderBy('animal.anregistro')
             ->paginate(10);
 
@@ -165,7 +165,7 @@ class AnimalController extends Controller
     public function animalSearch(Request $request)
     {
         if (! $request->q) {
-            return response()->json([1]);
+            return response()->json([]);
         }
 
         if(!isset($request->sexo_id)) {
@@ -174,14 +174,17 @@ class AnimalController extends Controller
                     ->orWhere('ananimal', 'LIKE', $request->q . '%');
                 })
                 ->whereNull('andatasai')
-                ->where('criador_id', 137)
+                ->where('criador_id', auth()->user()->farmerId())
                 ->get()
                 ->map(function ($animal) {
                     return [
-                        'id' => $animal->anregistro,
+                        'id' => $animal->id,
                         'animal_id' => $animal->id,
                         'text' => $animal->anregistro . ' --> ' . $animal->ananimal . ' --> ' . $animal->annome .
-                         ' --> ' . $animal->anregistro . ' --> ' . $animal->sexo->sxnome
+                         ' --> ' . $animal->anregistro . ' --> ' . $animal->sexo->sxnome,
+                        'anregistro' => $animal->anregistro,
+                        'annome' => $animal->annome,
+                        'ananimal' => $animal->ananimal,
                     ];
                 });
             
@@ -194,7 +197,7 @@ class AnimalController extends Controller
                 $query->where('anregistro', 'LIKE', $request->q . '%')
                     ->orWhere('ananimal', 'LIKE', $request->q . '%');
             })->whereNull('andatasai')
-            ->where('criador_id', 137)
+            ->where('criador_id', auth()->user()->farmerId())
             ->where('sexo_id', $request->sexo_id)
             ->get()
             ->map(function ($animal) {

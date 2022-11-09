@@ -55,10 +55,6 @@
                             <td>{{ $animal->annome }}</td>
                             <td>{{ date_br($animal->cidata) }}</td>
                             <td class="text-center">
-                                <a href="{{ route('animal-heat.show', $animal->cio_id) }}" onclick="loadModal(event, this)" class="btn btn-secondary" title="Visualizar Animal">
-                                    <i class="fa fa-search"></i>
-                                </a>
-
                                 <a href="{{ route('animal-heat.edit', $animal->cio_id) }}" class="btn btn-primary" title="Editar Animal">
                                     <i class="fa fa-edit"></i>
                                 </a>

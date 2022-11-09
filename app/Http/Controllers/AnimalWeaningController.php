@@ -5,20 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Lote;
 use App\Models\Local;
 use App\Models\Animal;
-use App\Http\Requests\AnimalChangeLocationRequest;
-use App\Http\Requests\AnimalLoteChangeLocationRequest;
-use App\Http\Requests\AnimalLocalChangeLocationRequest;
+use Illuminate\Http\Request;
 
 class AnimalWeaningController extends Controller
 {
     public function index()
     {
         $animals = Animal::search()
-            ->where('animal.criador_id', 137)
+            ->where('animal.criador_id', auth()->user()->farmerId())
+            ->whereNull('andesmama')
             ->orderBy('animal.anregistro')
             ->paginate(10);
-        $lotes = Lote::where('criador_id', 137)->get();
-        $locals = Local::where('criador_id', 137)->get();
+        $lotes = Lote::where('criador_id', auth()->user()->farmerId())->get();
+        $locals = Local::where('criador_id', auth()->user()->farmerId())->get();
 
         return view('animal-weaning.tabs', [
             'animals' => $animals,
@@ -29,25 +28,13 @@ class AnimalWeaningController extends Controller
 
     public function animalLoteListForm(Lote $lote)
     {
-        $animals = Animal::leftJoin('local', function($join) {
-            $join->on('animal.local_id', '=', 'local.id')
-                ->where('animal.criador_id', '=', 'local.criador_id');
-            })
-            ->leftJoin('lote', function($join) {
-                $join->on('animal.lote_id', '=', 'lote.id')
-                    ->where('animal.criador_id', '=', 'lote.criador_id');
-            })
-            ->where(function($query) {
-                $query->whereNull('animal.andatasai')
-                    ->orWhere('animal.andatasai', '=', '0000-00-00');
-            })
-            ->select('animal.*')
-            ->where('animal.criador_id', 137)
+        $animals = Animal::whereNull('andesmama')
+            ->where('animal.criador_id', auth()->user()->farmerId())
             ->where('animal.lote_id', $lote->id)
             ->get();
 
-        $lotes = Lote::where('criador_id', 137)->get();
-        return view('animal-change-location.animal-lote-list-form', [
+        $lotes = Lote::where('criador_id', auth()->user()->farmerId())->get();
+        return view('animal-weaning.animal-lote-list-form', [
             'animals' => $animals,
             'lotes' => $lotes,
         ]);
@@ -55,69 +42,68 @@ class AnimalWeaningController extends Controller
 
     public function animalLocalListForm(Local $local)
     {
-        $animals = Animal::leftJoin('local', function($join) {
-            $join->on('animal.local_id', '=', 'local.id')
-                ->where('animal.criador_id', '=', 'local.criador_id');
-            })
-            ->leftJoin('lote', function($join) {
-                $join->on('animal.lote_id', '=', 'lote.id')
-                    ->where('animal.criador_id', '=', 'lote.criador_id');
-            })
-            ->where(function($query) {
-                $query->whereNull('animal.andatasai')
-                    ->orWhere('animal.andatasai', '=', '0000-00-00');
-            })
-            ->select('animal.*')
-            ->where('animal.criador_id', 137)
+        $animals = Animal::whereNull('andesmama')
+            ->where('animal.criador_id', auth()->user()->farmerId())
             ->where('animal.local_id', $local->id)
             ->get();
 
-        $locals = Local::where('criador_id', 137)->get();
-        return view('animal-change-location.animal-local-list-form', [
+        $locals = Lote::where('criador_id', auth()->user()->farmerId())->get();
+        return view('animal-weaning.animal-local-list-form', [
             'animals' => $animals,
             'locals' => $locals,
         ]);
     }
 
-    public function LoteChangeLocation(AnimalLoteChangeLocationRequest $request)
-    {        
+    public function animalWeaningLote(Request $request)
+    {
+        $data = $request->validate([
+            'andesmama' => ['required', 'date_format:"d/m/Y"'],
+            'animal_id' => ['required', 'array'],            
+            'lote_id' => ['required', 'exists:lote,id'],
+        ]);
+        
         $animals = Animal::whereIn('id', $request->animal_id)->get();
         foreach($animals as $animal) {
-            $animal->update($request->all());
+            $animal->update($data);
         }
         return redirect()
-            ->route('animal-change-location')
-            ->withToastSuccess('Movimentação de lote realizada com sucesso!'); 
+            ->route('animal-weaning.index')
+            ->withToastSuccess('Desamame de lote realizado com sucesso!'); 
     }
 
-    public function LocalChangeLocation(AnimalLocalChangeLocationRequest $request)
+    public function animalWeaningLocal(Request $request)
     {
+        $data = $request->validate([
+            'andesmama' => ['required', 'date_format:"d/m/Y"'],
+            'animal_id' => ['required', 'array'],            
+            'local_id' => ['required', 'exists:local,id'],
+        ]);
+        
         $animals = Animal::whereIn('id', $request->animal_id)->get();
         foreach($animals as $animal) {
-            $animal->update($request->all());
+            $animal->update($data);
         }
         return redirect()
-            ->route('animal-change-location')
-            ->withToastSuccess('Movimentação de local realizada com sucesso!'); 
+            ->route('animal-weaning.index')
+            ->withToastSuccess('Desamame de local realizado com sucesso!'); 
     }
 
-    public function individualChangeLocationForm(Animal $animal)
+    public function individualWeaningForm(Animal $animal_weaning)
     {
-        $lotes = Lote::where('criador_id', 137)->get();
-        $locals = Local::where('criador_id', 137)->get();
-        return view('animal-change-location.individual-change-location-form', [
-            'animal' => $animal,
-            'lotes' => $lotes,
-            'locals' => $locals,
+        return view('animal-weaning.individual-weaning-form', [
+            'animal_weaning' => $animal_weaning,
         ]);
     }
 
-    public function individualChangeLocation(AnimalChangeLocationRequest $request, Animal $animal)
+    public function individualWeaning(Request $request, Animal $animal_weaning)
     {
-        $animal->update($request->all());
+        $data = $request->validate([
+            'andesmama' => ['required', 'date_format:"d/m/Y"'],
+        ]);
+        $animal_weaning->update($data);
         return redirect()
-            ->route('animal-change-location')
-            ->withToastSuccess('Movimentação de animal realizada com sucesso!');
+            ->route('animal-weaning.index')
+            ->withToastSuccess('Desmame de animal cadastrado com sucesso!');
     }
 
     public function AnimalLocalFormChangeLocation()

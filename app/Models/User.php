@@ -41,4 +41,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function farmer()
+    {
+        return $this->hasOne(Criador::class);
+    }
+
+    public function farmerId()
+    {
+        return $this->farmer->id;
+    }
+
+    public function isFarmer()
+    {
+        return ! is_null($this->farmer);
+    }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class ADMed extends Model
+class ADMed extends BaseModel
 {
     protected $table = 'admed';
 

@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ route('home') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -17,8 +17,8 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="{{ route('animals.index') }}">Entrada de animais</a>
                         <a class="nav-link" href="{{ route('animal-exit') }}">Saída de animais</a>
-                        <a class="nav-link" href="{{ route('animal-change-location') }} ">Movimento entre instalações</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Registro de desmame</a>
+                        <a class="nav-link" href="{{ route('animal-change-location') }}">Movimento entre instalações</a>
+                        <a class="nav-link" href="{{ route('animal-weaning.index') }}">Registro de desmame</a>
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSanidade" aria-expanded="false" aria-controls="collapseSanidade">
@@ -28,7 +28,7 @@
                 </a>
                 <div class="collapse" id="collapseSanidade" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Animal/Doença</a>
+                        <a class="nav-link" href="{{ route('animal-health.index') }}">Animal/Doença</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Doença/Medicamento</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Ocorrências</a>
                     </nav>
@@ -97,23 +97,23 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de cios
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('animal-birth.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de partos
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('animal-weight.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de pesagens
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('animal-milk.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de produção de leite
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('lote.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de lotes
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('local.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de locais
                 </a>
@@ -122,10 +122,6 @@
                     Cadastro de ocorrências diversas
                 </a>
             </div>
-        </div>
-        <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Start Bootstrap
         </div>
     </nav>
 </div>

@@ -2,13 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class Local extends Model
+
+class Local extends BaseModel
 {
     protected $table = 'local';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'criador_id',
+        'l2codigo',
+        'crcodigo',
+        'l2nome',
+    ];
+
+    protected $filters = [
+        'l2codigo',
+        'l2nome',
+    ];
 
 }

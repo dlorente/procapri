@@ -2,13 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class Lote extends Model
+class Lote extends BaseModel
 {
     protected $table = 'lote';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'criador_id',
+        'l1codigo',
+        'crcodigo',
+        'l1nome',
+    ];
+
+    protected $filters = [
+        'l1codigo',
+        'l1nome',
+    ];
 
 }

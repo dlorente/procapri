@@ -1,11 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\FarmerController;
+use App\Http\Controllers\OldLoginController;
 use App\Http\Controllers\AnimalExitController;
-use App\Http\Controllers\AnimalChangeLocationController;
 use App\Http\Controllers\AnimalHeatController;
+use App\Http\Controllers\AnimalMilkController;
+use App\Http\Controllers\AnimalBirthController;
+use App\Http\Controllers\AnimalHealthController;
+use App\Http\Controllers\AnimalWeightController;
 use App\Http\Controllers\AnimalWeaningController;
+use App\Http\Controllers\AnimalChangeLocationController;
+use App\Http\Controllers\LocalController;
+use App\Http\Controllers\LoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +30,11 @@ use App\Http\Controllers\AnimalWeaningController;
 Auth::routes();
 
 
+Route::group(['middleware' => ['auth', 'check.farmer']], function () {
 
-Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+    
     Route::get('animals-search', [AnimalController::class, 'animalSearch'])->name('animals.search');
     Route::resources([
         'animals' => AnimalController::class,
@@ -46,11 +58,50 @@ Route::middleware(['auth'])->group(function () {
     Route::post('animals/{animal}/change-location', [AnimalChangeLocationController::class, 'individualChangeLocation'])->name('animals.change-location');
 
     // Animal weaning
-    Route::get('animal-weaning', [AnimalWeaningController::class, 'index'])->name('animal-weaning');
-
+    Route::get('animal-weaning', [AnimalWeaningController::class, 'index'])->name('animal-weaning.index');
+    Route::get('animal-weaning/{animal_weaning}/individual-weaning', [AnimalWeaningController::class, 'individualWeaningForm'])->name('individual-weaning-form');
+    Route::get('animal-weaning/local-list-form/{local}', [AnimalWeaningController::class, 'animalLocalListForm'])->name('animal-weaning-local-list-form');
+    Route::get('animal-weaning/lote-list-form/{lote}', [AnimalWeaningController::class, 'animalLoteListForm'])->name('animal-weaning-lote-list-form');
+    Route::post('animal-weaning/{animal_weaning}/individual-weaning', [AnimalWeaningController::class, 'individualWeaning'])->name('individual-weaning');
+    Route::post('animal-weaning/lote', [AnimalWeaningController::class, 'animalWeaningLote'])->name('lote-weaning');
+    Route::post('animal-weaning/local', [AnimalWeaningController::class, 'animalWeaningLocal'])->name('local-weaning');
+    
     //Animal on Heat
     Route::resources([
         'animal-heat' => AnimalHeatController::class,
+    ]);
+
+    //Animal Birth
+    Route::resources([
+        'animal-birth' => AnimalBirthController::class,
+    ]);
+
+    //Animal Weight
+    Route::resources([
+        'animal-weight' => AnimalWeightController::class,
+    ]);
+
+    //Animal Milk Production
+    Route::resources([
+        'animal-milk' => AnimalMilkController::class,
+    ]);
+
+    //Animal Milk Production
+    Route::resources([
+        'farmer' => FarmerController::class,
+    ]);
+
+    //Animal Milk Production
+    Route::resources([
+        'animal-health' => AnimalHealthController::class,
+    ]);
+
+    Route::resources([
+        'lote' => LoteController::class,
+    ]);
+
+    Route::resources([
+        'local' => LocalController::class,
     ]);
     // Route::get('animal-heat', [AnimalHeatController::class, 'index'])->name('animal-heat.index');
     // Route::get('animal-heat/{cio}', [AnimalHeatController::class, 'show'])->name('animal-heat.show');
@@ -59,4 +110,10 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('animal-heat/create', [AnimalHeatController::class, 'create'])->name('animal-heat.create');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Old login
+Route::get('old-login', [OldLoginController::class, 'index'])->name('old-login.index')->middleware('auth');
+Route::get('old-login/message', [OldLoginController::class, 'message'])->name('old-login.message')->middleware('auth');
+Route::post('old-login/login', [OldLoginController::class, 'login'])->name('old-login.login')->middleware('auth');
+
+Route::get('old-login/farmer-form', [OldLoginController::class, 'oldLoginFarmerForm'])->name('old-login.farmer-form')->middleware('auth');
+Route::post('old-login/farmer', [OldLoginController::class, 'oldLoginFarmer'])->name('old-login.farmer')->middleware('auth');

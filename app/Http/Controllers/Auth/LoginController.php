@@ -53,4 +53,11 @@ class LoginController extends Controller
 
         return redirect()->route('login');
     }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if(! $user->isFarmer()) {
+            return redirect()->route('old-login.index');
+        }
+    }
 }

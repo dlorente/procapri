@@ -54,7 +54,6 @@ class Animal extends BaseModel
         'racodigo',
         'anomemae',
         'corcodigo',
-
     ];
 
     protected $filters = [
@@ -71,6 +70,7 @@ class Animal extends BaseModel
         'andcoberta' => Date::class,
         'andatasai' => Date::class,
         'cidata' => Date::class,
+        'addtinicio' => Date::class,
     ];
 
     public function sexo()

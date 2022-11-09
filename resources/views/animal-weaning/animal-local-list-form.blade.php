@@ -4,17 +4,22 @@
     Oops... nenhum registro encontrado!
 </div>
 @else
-<form id="form-local" action="{{ route('local-change-location') }}" method="POST">
+<form id="form-local" action="{{ route('local-weaning') }}" method="POST">
     @csrf
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label for="" class="form-label">Local para a entrada dos animais</label>
-            <select name="local_id" id="local_id" class="form-select">
-                <option></option>
-                @foreach($locals as $local)
-                <option value="{{ $local->id }}">{{ $local->l2nome }}</option>
-                @endforeach
-            </select>
+    <div class="row">
+        <div class="col-4">
+            <div class="mb-3">
+                <label class="form-label" for="andesmama">Data de desmame<star>*</star></label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                    <input autocomplete="off" type="text" class="datepicker date form-control @error('andesmama') is-invalid @enderror" id="andesmama" name="andesmama" value="{{ old('andesmama', $animal_weaning->andesmama ?? null) }}">
+                    @error('andesmama')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -53,5 +58,58 @@
             </tbody>
         </table>
     </div>
+    <input type="hidden" id="local_id" name="local_id">
 </form>
+<script>
+    $('.datepicker').datepicker()
+    $('.date').mask('00/00/0000')
+
+    var formLocal = document.getElementById('form-local')
+    if(formLocal) {
+        formLocal.addEventListener('submit', (event) => {
+            event.preventDefault();
+            document.getElementById('local_id').value = document.getElementById('local').value
+            const animals = document.getElementsByName('animal_id[]')
+            let andesmama = document.getElementById('andesmama').value
+            let error_msg = ''
+
+            if(andesmama == '') {
+                error_msg = 'Infome a data do desmame!<br>'
+            } else {
+                andesmama = andesmama.split('/')
+                andesmama = `${andesmama[2]}-${andesmama[1]}-${andesmama[0]}`
+                andesmama = new Date(andesmama).getTime()
+            }
+
+            if(error_msg != '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: error_msg
+                })
+            }
+            for(let animal of animals) {
+                if(animal.checked) {
+                    let entrada = animal.dataset.anentrada.split('/')
+                    entrada = `${entrada[2]}-${entrada[1]}-${entrada[0]}`
+                    entrada = new Date(entrada).getTime()
+                    if(andesmama < entrada) {
+                        error_msg += 'A data de desmame deve ser posterior a data de entrada'
+                    break;
+                    }
+                }
+            }
+
+            if(error_msg != '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: error_msg
+                })
+                return
+            }
+            formLocal.submit()
+        });
+    }
+</script>
 @endif

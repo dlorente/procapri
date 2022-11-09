@@ -25,7 +25,7 @@ class AnimalHeatController extends Controller
         $animals = Cio::join('animal', 'animal.id', '=', 'cio.animal_id')
             ->select('animal.*', 'cio.cidata', 'cio.id as cio_id')            
             ->search()
-            ->where('animal.criador_id', 137)
+            ->where('animal.criador_id', auth()->user()->farmerId())
             ->orderBy('animal.anregistro')
             ->orderBy('cio.cidata')
             ->paginate(10);        
@@ -51,13 +51,25 @@ class AnimalHeatController extends Controller
 
     public function store(AnimalHeatRequest $request)
     {
+
         $animal = Animal::find($request->animal_id);
-        $request['anregistro'] = $animal->anregistro;
-        $request['cpcodigo'] = null;
-        if($request->confprenha_id) {
-            $confp = ConfPrenha::find($request->confprenha_id);
-            $request['cpcodigo'] = $confp->cpcodigo;
+        $animal_heat = Cio::where('anregistro', $animal->anregistro)
+            ->where('crcodigo', $animal->crcodigo)
+            ->where('cidata', date_db($request->cidata))
+            ->get();
+        
+        if($animal_heat->count() > 0) {
+            return back()
+                ->withInput()
+                ->withToastSuccess('Cio já cadastrado para o animal ' . $animal->anregistro . ' -> ' . $request->cidata);
         }
+
+        $request['anregistro'] = $animal->anregistro;
+        $request['crcodigo'] = $animal->crcodigo;
+        $request['criador_id'] = $animal->criador_id;
+
+        $request['ciflag'] = $request['cpcodigo'] == 'N' ? 'N' : 'S';
+        
         $request['cobcodigo'] = null;
         if($request->tpcobertura_id) {
             $confp = TPCobertura::find($request->tpcobertura_id);
@@ -68,22 +80,31 @@ class AnimalHeatController extends Controller
             $confp = TPExGest::find($request->tpexgest_id);
             $request['exgcodigo'] = $confp->exgcodigo;
         }
+
         $request['ciocodigo'] = null;
         if($request->tpcio_id) {
             $confp = TPCio::find($request->tpcio_id);
             $request['ciocodigo'] = $confp->ciocodigo;
         }
-        dd($request->all());
+        // dd($request->all());
+        Cio::create($request->all());
+
+        return redirect()
+            ->route('animal-heat.index')
+            ->withToastSuccess('Cio (Monta campo) cadastrado com sucesso!');
     }
 
-    public function update(Request $request, Cio $animal_heat)
+    public function update(AnimalHeatRequest $request, Cio $animal_heat)
     {
         $animal = Animal::find($request->animal_id);
         $request['anregistro'] = $animal->anregistro;
+        $request['crcodigo'] = $animal->crcodigo;
+
         $request['cpcodigo'] = null;
         if($request->confprenha_id) {
             $confp = ConfPrenha::find($request->confprenha_id);
             $request['cpcodigo'] = $confp->cpcodigo;
+            $request['ciflag'] = $request['cpcodigo'] == 'N' ? 'N' : 'S';
         }
         $request['cobcodigo'] = null;
         if($request->tpcobertura_id) {
@@ -102,8 +123,6 @@ class AnimalHeatController extends Controller
             $request['ciocodigo'] = $confp->ciocodigo;
         }
 
-        // dd($request->all());
-        
         $animal_heat->update($request->all());
 
         return redirect()
@@ -131,8 +150,12 @@ class AnimalHeatController extends Controller
         ]);
     }
 
-    public function destroy()
+    public function destroy(Cio $animal_heat)
     {
+        $animal_heat->delete();
 
+        return redirect()
+            ->route('animal-heat.index')
+            ->withToastSuccess('Cio (Monta campo) exluído com sucesso!');
     }
 }

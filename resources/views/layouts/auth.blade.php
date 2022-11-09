@@ -16,6 +16,7 @@
                 <main>
                     <div class="container">
                         <div class="row justify-content-center">
+                            @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 @yield('content')
@@ -41,6 +42,11 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+			  crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <script src="{{ asset('js/plugins/jquery-mask/jquery.mask.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
     </body>
 </html>

@@ -15,11 +15,11 @@ class AnimalExitController extends Controller
     public function index()
     {
         $animals = Animal::search()
-            ->where('animal.criador_id', 137)
+            ->where('animal.criador_id', auth()->user()->farmerId())
             ->orderBy('animal.anregistro')
             ->paginate(10);
-        $lotes = Lote::where('criador_id', 137)->get();
-        $locals = Local::where('criador_id', 137)->get();
+        $lotes = Lote::where('criador_id', auth()->user()->farmerId())->get();
+        $locals = Local::where('criador_id', auth()->user()->farmerId())->get();
 
         return view('animal-exit.tabs', [
             'animals' => $animals,
@@ -32,7 +32,7 @@ class AnimalExitController extends Controller
     {
         $animals = Animal::where('lote_id', $lote->id)
             ->whereNull('andatasai')
-            ->where('criador_id', 137)
+            ->where('criador_id', auth()->user()->farmerId())
             ->get();
         $motivos = MotSaida::all();
         $causas = CauSaida::all();
@@ -47,7 +47,7 @@ class AnimalExitController extends Controller
     {
         $animals = Animal::where('local_id', $local->id)
             ->whereNull('andatasai')
-            ->where('criador_id', 137)
+            ->where('criador_id', auth()->user()->farmerId())
             ->get();
         $motivos = MotSaida::all();
         $causas = CauSaida::all();
