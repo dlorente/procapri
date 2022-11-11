@@ -20,13 +20,27 @@ if (! function_exists('icon_status')) {
      *
      * @return void
      */
-    function icon_status(int $status)
+    function icon_status($status)
     {
-        $icon = $status == 1
+        $icon = $status == (1 || 'S')
             ? ['icon' => 'check', 'color' => 'text-success']
             : ['icon' => 'times', 'color' => 'text-danger'];
 
         echo vsprintf('<i class="fa fa-%s %s"></i>', $icon);
+    }
+}
+
+
+if (! function_exists('badge')) {
+
+    /**
+     * Exibe ícone de ativo/inativo pelo status (0/1).
+     *
+     * @return void
+     */
+    function badge($type, $text)
+    {
+        echo vsprintf('<span class="badge bg-%s">%s</span>', [$type, $text]);
     }
 }
 

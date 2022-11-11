@@ -113,7 +113,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="adobs" class="form-label">Observações</label>
-                                <input type="text" class="form-control @error('adobs') is-invalid @enderror" name="adobs" maxlength="100" value="{{ $animal_health->adobs }}">
+                                <input type="text" class="form-control @error('adobs') is-invalid @enderror" name="adobs" maxlength="100" value="{{ old('adobs', $animal_health->adobs ?? null) }}">
                                 @error('adobs')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

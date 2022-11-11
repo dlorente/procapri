@@ -57,4 +57,13 @@ class Parto extends BaseModel
     {
         return $this->belongsTo(Criador::class);
     }
+
+    public static function nextParturitionNumber($animal_id)
+    {
+        $max_p = Parto::where('animal_id', $animal_id)
+            ->where('criador_id', auth()->user()->farmerId())
+            ->max('paordem');
+        
+        return $max_p + 1;
+    }
 }

@@ -29,8 +29,8 @@
                 <div class="collapse" id="collapseSanidade" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="{{ route('animal-health.index') }}">Animal/Doença</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Doença/Medicamento</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Ocorrências</a>
+                        <a class="nav-link" href="#">Doença/Medicamento</a>
+                        <a class="nav-link" href="{{ route('animal-treatments.index') }}">Ocorrências</a>
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReprodutivo" aria-expanded="false" aria-controls="collapseReprodutivo">
@@ -40,9 +40,9 @@
                 </a>
                 <div class="collapse" id="collapseReprodutivo" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Controle de coberturas</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Diagnóstico de prenhes</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Controle de Partos</a>
+                        <a class="nav-link" href="{{ route('animal-heat.index') }}">Controle de coberturas</a>
+                        <a class="nav-link" href="{{ route('pregnancy-diagnoses.index') }}">Diagnóstico de prenhes</a>
+                        <a class="nav-link" href="{{ route('parturition-entries.index') }}">Controle de Partos</a>
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProdutivo" aria-expanded="false" aria-controls="collapseProdutivo">
@@ -117,7 +117,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de locais
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Cadastro de ocorrências diversas
                 </a>

@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 
 class AnimalHeatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $animals = Cio::join('animal', 'animal.id', '=', 'cio.animal_id')
             ->select('animal.*', 'cio.cidata', 'cio.id as cio_id')            
@@ -28,19 +28,35 @@ class AnimalHeatController extends Controller
             ->where('animal.criador_id', auth()->user()->farmerId())
             ->orderBy('animal.anregistro')
             ->orderBy('cio.cidata')
-            ->paginate(10);        
+            ->paginate(10);
+            
+        if($request->type === 'flock') {
+            return view('animal-heat.index-flock', [
+                'animals' => $animals,
+            ]);
+        }
 
         return view('animal-heat.index', [
             'animals' => $animals,
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $tpcoberturas = TPCobertura::all();
         $confprenhas = ConfPrenha::all();
         $tpexgests = TPExGest::all();
         $tpcios = TPCio::all();
+
+        if($request->type === 'flock') {
+            return view('animal-heat.form-flock', [
+                'tpcoberturas' => $tpcoberturas,
+                'confprenhas' => $confprenhas,
+                'tpexgests' => $tpexgests,
+                'tpcios' => $tpcios,
+            ]);
+        }
+
         return view('animal-heat.form', [
             'tpcoberturas' => $tpcoberturas,
             'confprenhas' => $confprenhas,
@@ -69,6 +85,9 @@ class AnimalHeatController extends Controller
         $request['criador_id'] = $animal->criador_id;
 
         $request['ciflag'] = $request['cpcodigo'] == 'N' ? 'N' : 'S';
+        if(isset($request->type) && $request->type === 'flock') {
+            $request['ciflag'] = 'S';
+        }
         
         $request['cobcodigo'] = null;
         if($request->tpcobertura_id) {
@@ -89,6 +108,12 @@ class AnimalHeatController extends Controller
         // dd($request->all());
         Cio::create($request->all());
 
+        if($request->type === 'flock') {
+            return redirect()
+                ->route('animal-heat.index', ['type' => 'flock'])
+                ->withToastSuccess('Entrada de cio cadastrada com sucesso!');
+        }
+
         return redirect()
             ->route('animal-heat.index')
             ->withToastSuccess('Cio (Monta campo) cadastrado com sucesso!');
@@ -100,11 +125,14 @@ class AnimalHeatController extends Controller
         $request['anregistro'] = $animal->anregistro;
         $request['crcodigo'] = $animal->crcodigo;
 
-        $request['cpcodigo'] = null;
+        $request['cpcodigo'] = null;        
         if($request->confprenha_id) {
             $confp = ConfPrenha::find($request->confprenha_id);
             $request['cpcodigo'] = $confp->cpcodigo;
             $request['ciflag'] = $request['cpcodigo'] == 'N' ? 'N' : 'S';
+        }
+        if(isset($request->type) && $request->type === 'flock') {
+            $request['ciflag'] = 'S';
         }
         $request['cobcodigo'] = null;
         if($request->tpcobertura_id) {
@@ -125,6 +153,12 @@ class AnimalHeatController extends Controller
 
         $animal_heat->update($request->all());
 
+        if($request->type === 'flock') {
+            return redirect()
+                ->route('animal-heat.index', ['type' => 'flock'])
+                ->withToastSuccess('Entrada de cio atualizada com sucesso!');
+        }
+
         return redirect()
             ->route('animal-heat.index')
             ->withToastSuccess('Cio (Monta campo) atualizado com sucesso!');
@@ -135,13 +169,19 @@ class AnimalHeatController extends Controller
 
     }
 
-    public function edit(Cio $animal_heat)
+    public function edit(Cio $animal_heat, Request $request)
     {
         $tpcoberturas = TPCobertura::all();
         $confprenhas = ConfPrenha::all();
         $tpexgests = TPExGest::all();
         $tpcios = TPCio::all();
-        return view('animal-heat.form', [
+
+        $view = 'animal-heat.form';
+        if($request->type === 'flock') {
+            $view = 'animal-heat.form-flock';
+        }
+
+        return view($view, [
             'animal_heat' => $animal_heat,
             'tpcoberturas' => $tpcoberturas,
             'confprenhas' => $confprenhas,
@@ -150,12 +190,18 @@ class AnimalHeatController extends Controller
         ]);
     }
 
-    public function destroy(Cio $animal_heat)
+    public function destroy(Cio $animal_heat, Request $request)
     {
         $animal_heat->delete();
 
+        if($request->type === 'flock') {
+            return redirect()
+                ->route('animal-heat.index', ['type' => 'flock'])
+                ->withToastSuccess('Entrada de cio removida com sucesso!');
+        }
+
         return redirect()
             ->route('animal-heat.index')
-            ->withToastSuccess('Cio (Monta campo) exluído com sucesso!');
+            ->withToastSuccess('Cio (Monta campo) removido com sucesso!');
     }
 }

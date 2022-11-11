@@ -59,5 +59,13 @@ class Cio extends BaseModel
         return $this->belongsTo(Criador::class);
     }
 
-    
+    public function tpcio()
+    {
+        return $this->belongsTo(TPCio::class);
+    }
+
+    public function tpcobertura()
+    {
+        return $this->belongsTo(TPCobertura::class);
+    }
 }

@@ -13,8 +13,11 @@ use App\Http\Controllers\AnimalHealthController;
 use App\Http\Controllers\AnimalWeightController;
 use App\Http\Controllers\AnimalWeaningController;
 use App\Http\Controllers\AnimalChangeLocationController;
+use App\Http\Controllers\AnimalTreatmentController;
 use App\Http\Controllers\LocalController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\ParturitionEntriesController;
+use App\Http\Controllers\PregnancyDiagnosesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,14 +35,25 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'check.farmer']], function () {
 
+    Route::resources([
+        'animals' => AnimalController::class,
+        'animal-heat' => AnimalHeatController::class,
+        'animal-birth' => AnimalBirthController::class,
+        'animal-weight' => AnimalWeightController::class,
+        'animal-milk' => AnimalMilkController::class,
+        'farmer' => FarmerController::class,
+        'animal-health' => AnimalHealthController::class,
+        'lote' => LoteController::class,
+        'local' => LocalController::class,
+        'animal-treatments' => AnimalTreatmentController::class,
+        'pregnancy-diagnoses' => PregnancyDiagnosesController::class,
+    ]);
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
     
     Route::get('animals-search', [AnimalController::class, 'animalSearch'])->name('animals.search');
-    Route::resources([
-        'animals' => AnimalController::class,
-    ]);
-
+    
     Route::get('animal-exit', [AnimalExitController::class, 'index'])->name('animal-exit');
     Route::get('animal-exit/lote-list-form/{lote}', [AnimalExitController::class, 'animalLoteListForm'])->name('animal-lote-list-form');
     Route::get('animal-exit/local-list-form/{local}', [AnimalExitController::class, 'animalLocalListForm'])->name('animal-local-list-form');
@@ -65,44 +79,15 @@ Route::group(['middleware' => ['auth', 'check.farmer']], function () {
     Route::post('animal-weaning/{animal_weaning}/individual-weaning', [AnimalWeaningController::class, 'individualWeaning'])->name('individual-weaning');
     Route::post('animal-weaning/lote', [AnimalWeaningController::class, 'animalWeaningLote'])->name('lote-weaning');
     Route::post('animal-weaning/local', [AnimalWeaningController::class, 'animalWeaningLocal'])->name('local-weaning');
-    
-    //Animal on Heat
-    Route::resources([
-        'animal-heat' => AnimalHeatController::class,
-    ]);
 
-    //Animal Birth
-    Route::resources([
-        'animal-birth' => AnimalBirthController::class,
-    ]);
-
-    //Animal Weight
-    Route::resources([
-        'animal-weight' => AnimalWeightController::class,
-    ]);
-
-    //Animal Milk Production
-    Route::resources([
-        'animal-milk' => AnimalMilkController::class,
-    ]);
-
-    //Animal Milk Production
-    Route::resources([
-        'farmer' => FarmerController::class,
-    ]);
-
-    //Animal Milk Production
-    Route::resources([
-        'animal-health' => AnimalHealthController::class,
-    ]);
-
-    Route::resources([
-        'lote' => LoteController::class,
-    ]);
-
-    Route::resources([
-        'local' => LocalController::class,
-    ]);
+    //Route::resource('parturition-entries', ParturitionEntriesController::class)->except(['create', 'show']);
+    Route::get('parturition-entries', [ParturitionEntriesController::class, 'index'])->name('parturition-entries.index');
+    Route::post('parturition-entries/store/{parturition_entry}', [ParturitionEntriesController::class, 'store'])
+        ->name('parturition-entries.store');
+    Route::get('parturition-entries/{parturition_entry}/create', [ParturitionEntriesController::class, 'create'])
+        ->name('parturition-entries.create');
+    Route::get('parturition-entries/baby-form', [ParturitionEntriesController::class, 'babyForm'])
+        ->name('parturition-entries.baby-form');
     // Route::get('animal-heat', [AnimalHeatController::class, 'index'])->name('animal-heat.index');
     // Route::get('animal-heat/{cio}', [AnimalHeatController::class, 'show'])->name('animal-heat.show');
     // Route::get('animal-heat/{cio}/edit', [AnimalHeatController::class, 'edit'])->name('animal-heat.edit');
