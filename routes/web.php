@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoteController;
+use App\Http\Controllers\LocalController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\OldLoginController;
@@ -11,13 +13,13 @@ use App\Http\Controllers\AnimalMilkController;
 use App\Http\Controllers\AnimalBirthController;
 use App\Http\Controllers\AnimalHealthController;
 use App\Http\Controllers\AnimalWeightController;
+use App\Http\Controllers\DairyControlController;
 use App\Http\Controllers\AnimalWeaningController;
-use App\Http\Controllers\AnimalChangeLocationController;
+use App\Http\Controllers\WeightControlController;
 use App\Http\Controllers\AnimalTreatmentController;
-use App\Http\Controllers\LocalController;
-use App\Http\Controllers\LoteController;
 use App\Http\Controllers\ParturitionEntriesController;
 use App\Http\Controllers\PregnancyDiagnosesController;
+use App\Http\Controllers\AnimalChangeLocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,11 +90,22 @@ Route::group(['middleware' => ['auth', 'check.farmer']], function () {
         ->name('parturition-entries.create');
     Route::get('parturition-entries/baby-form', [ParturitionEntriesController::class, 'babyForm'])
         ->name('parturition-entries.baby-form');
-    // Route::get('animal-heat', [AnimalHeatController::class, 'index'])->name('animal-heat.index');
-    // Route::get('animal-heat/{cio}', [AnimalHeatController::class, 'show'])->name('animal-heat.show');
-    // Route::get('animal-heat/{cio}/edit', [AnimalHeatController::class, 'edit'])->name('animal-heat.edit');
-    // Route::get('animal-heat/{cio}/destroy', [AnimalHeatController::class, 'destroy'])->name('animal-heat.destroy');
-    // Route::get('animal-heat/create', [AnimalHeatController::class, 'create'])->name('animal-heat.create');
+    
+    // Weight Controls
+    Route::get('weight-controls', [WeightControlController::class, 'index'])->name('weight-controls.index');
+    Route::get('weight-controls/create', [WeightControlController::class, 'create'])->name('weight-controls.create');
+    Route::get('weight-controls/create-by-date', [WeightControlController::class, 'createByDate'])->name('weight-controls.create-by-date');
+    Route::post('weight-controls/store', [WeightControlController::class, 'store'])->name('weight-controls.store');
+    Route::post('weight-controls/store-by-date', [WeightControlController::class, 'storeByDate'])->name('weight-controls.store-by-date');
+
+    // Dairy Controls
+    Route::get('dairy-controls', [DairyControlController::class, 'index'])->name('dairy-controls.index');
+    Route::get('dairy-controls/create', [DairyControlController::class, 'create'])->name('dairy-controls.create');
+    Route::get('dairy-control/{dairy_control}/edit', [DairyControlController::class, 'edit'])->name('dairy-controls.edit');
+    Route::get('dairy-controls/create-by-date', [DairyControlController::class, 'createByDate'])->name('dairy-controls.create-by-date');
+    Route::post('dairy-controls/store', [DairyControlController::class, 'store'])->name('dairy-controls.store');
+    Route::post('dairy-controls/store-by-date', [DairyControlController::class, 'storeByDate'])->name('dairy-controls.store-by-date');
+    Route::post('dairy-control/{dairy_control}', [DairyControlController::class, 'destroy'])->name('dairy-controls.destroy');
 });
 
 // Old login

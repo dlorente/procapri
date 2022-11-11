@@ -52,8 +52,8 @@
                 </a>
                 <div class="collapse" id="collapseProdutivo" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Controle ponderal</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Controle leiteiro</a>
+                        <a class="nav-link" href="{{ route('weight-controls.index') }}">Controle ponderal</a>
+                        <a class="nav-link" href="{{ route('dairy-controls.index') }}">Controle leiteiro</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Encerrar lactação</a>
                     </nav>
                 </div>

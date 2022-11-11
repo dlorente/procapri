@@ -5,17 +5,17 @@
 @endpush
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Cadastro de Produção de Leite</h1>
+    <h1 class="mt-4">Entrada de Produção de Leite</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item active">Formulário de Cadastro</li>
+        <li class="breadcrumb-item active">Formulário de Entrada de Produção</li>
     </ol>
     <div class="card mb-4">
         <div class="card-body">
-            @if (! isset($animal_milk))
-                    <form method="POST" action="{{ route('animal-milk.store') }}">
+            @if (! isset($dairy_control))
+                    <form method="POST" action="{{ route('dairy-controls.store') }}">
             @else
-                <form method="POST" action="{{ route('animal-milk.update', $animal_milk) }}">
+                <form method="POST" action="{{ route('dairy-controls.update', $dairy_control) }}">
                     @method('PUT')
             @endif
 
@@ -27,8 +27,8 @@
                             <div class="mb-3">
                                 <label class="form-label" for="animal_id" class="form-label">Registro<star>*</star></label>
                                 <select class="form-select select2 @error('animal_id') is-invalid @enderror" aria-label="Lote" name="animal_id" id="animal_id" required>
-                                    @if(isset($animal_milk))
-                                        <option value="{{ $animal_milk->animal->id }}">{{ old('anregistro', $animal_milk->animal->anregistro ?? null) }}</option>
+                                    @if(isset($dairy_control))
+                                        <option value="{{ $dairy_control->animal->id }}">{{ old('anregistro', $dairy_control->animal->anregistro ?? null) }}</option>
                                     @endif
                                 </select>
                                 @error('animal_id')
@@ -43,13 +43,13 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label class="form-label">Placa</label>
-                                <input type="text" class="form-control" id="ananimal" disabled value="{{ old('ananimal', $animal_milk->animal->ananimal ?? null) }}">
+                                <input type="text" class="form-control" id="ananimal" disabled value="{{ old('ananimal', $dairy_control->animal->ananimal ?? null) }}">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
                                 <label class="form-label">Nome do animal</label>
-                                <input type="text" class="form-control" id="annome" disabled value="{{ old('annome', $animal_milk->animal->annome ?? null) }}">
+                                <input type="text" class="form-control" id="annome" disabled value="{{ old('annome', $dairy_control->animal->annome ?? null) }}">
                             </div>
                         </div>
                         <div class="col-4">
@@ -57,7 +57,7 @@
                                 <label class="form-label" for="prdatacon">Data<star>*</star></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
-                                    <input autocomplete="off" type="text" class="datepicker date form-control @error('prdatacon') is-invalid @enderror" id="prdatacon" name="prdatacon" value="{{ old('prdatacon', $animal_milk->prdatacon ?? null) }}">
+                                    <input autocomplete="off" type="text" class="datepicker date form-control @error('prdatacon') is-invalid @enderror" id="prdatacon" name="prdatacon" value="{{ old('prdatacon', $dairy_control->prdatacon ?? null) }}">
                                     @error('prdatacon')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -71,19 +71,19 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="prplord1" class="form-label">Primeira ordenha</label>
-                                <input type="text" class="form-control" name="prplord1" id="prplord1" value="{{ str_replace('.', ',', old('prplord1', $animal_milk->prplord1 ?? null)) }}" placeholder="0,00">
+                                <input type="text" class="form-control" name="prplord1" id="prplord1" value="{{ str_replace('.', ',', old('prplord1', $dairy_control->prplord1 ?? null)) }}" placeholder="0,00">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="prplord2" class="form-label">Segunda ordenha</label>
-                                <input type="text" class="form-control" name="prplord2" id="prplord2" value="{{ str_replace('.', ',', old('prplord2', $animal_milk->prplord2 ?? null)) }}" placeholder="0,00">
+                                <input type="text" class="form-control" name="prplord2" id="prplord2" value="{{ str_replace('.', ',', old('prplord2', $dairy_control->prplord2 ?? null)) }}" placeholder="0,00">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="prplord3" class="form-label">Terceira ordenha</label>
-                                <input type="text" class="form-control" name="prplord3" id="prplord3" value="{{ str_replace('.', ',', old('prplord3', $animal_milk->prplord3 ?? null)) }}" placeholder="0,00">
+                                <input type="text" class="form-control" name="prplord3" id="prplord3" value="{{ str_replace('.', ',', old('prplord3', $dairy_control->prplord3 ?? null)) }}" placeholder="0,00">
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                                     <option value="">-Selecione-</option>
                                     @foreach ($ocorrencias as $ocorrencia)
                                     <option 
-                                        {{ set_selected(old('ocolact_id', $animal_milk->ocolact_id ?? null), $ocorrencia->id) }}
+                                        {{ set_selected(old('ocolact_id', $dairy_control->ocolact_id ?? null), $ocorrencia->id) }}
                                         value="{{ $ocorrencia->id }}">{{ $ocorrencia->olnome }}</option>
                                     @endforeach
                                 </select>
@@ -111,24 +111,24 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="prgordura" class="form-label">% Total de gordura</label>
-                                <input type="text" class="form-control" name="prgordura" id="prgordura" value="{{ str_replace('.', ',', old('prgordura', $animal_milk->prgordura ?? null)) }}" placeholder="0,00">
+                                <input type="text" class="form-control" name="prgordura" id="prgordura" value="{{ str_replace('.', ',', old('prgordura', $dairy_control->prgordura ?? null)) }}" placeholder="0,00">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">  
                                 <label for="prproteina" class="form-label">% Total de proteína</label>
-                                <input type="text" class="form-control" name="prproteina" id="prproteina" value="{{ str_replace('.', ',', old('prproteina', $animal_milk->prproteina ?? null)) }}" placeholder="0,00">
+                                <input type="text" class="form-control" name="prproteina" id="prproteina" value="{{ str_replace('.', ',', old('prproteina', $dairy_control->prproteina ?? null)) }}" placeholder="0,00">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
                                 <label for="prextseco" class="form-label">% Extrato seco total</label>
-                                <input type="text" class="form-control" name="prextseco" id="prextseco" value="{{ str_replace('.', ',', old('prextseco', $animal_milk->prextseco ?? null)) }}" placeholder="0,00">
+                                <input type="text" class="form-control" name="prextseco" id="prextseco" value="{{ str_replace('.', ',', old('prextseco', $dairy_control->prextseco ?? null)) }}" placeholder="0,00">
                             </div>
                         </div>
                     </div>
                 </fieldset>
-                @if (! isset($animal_milk))
+                @if (! isset($dairy_control))
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                 @else
                 <button type="submit" class="btn btn-primary">Atualizar</button>

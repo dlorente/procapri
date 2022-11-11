@@ -64,6 +64,12 @@ class AnimalMilkController extends Controller
         $request['anregistro'] = $animal->anregistro;
         $request['crcodigo'] = $animal->crcodigo;
         $request['criador_id'] = $animal->criador_id;
+        $request['prplord1'] = str_replace(',', '.', $request['prplord1']) || 0;
+        $request['prplord2'] = str_replace(',', '.', $request['prplord2']) || 0;
+        $request['prplord3'] = str_replace(',', '.', $request['prplord3']) || 0;
+        $request['prgordura'] = str_replace(',', '.', $request['prgordura']) || 0;
+        $request['prproteina'] = str_replace(',', '.', $request['prproteina']) || 0;
+        $request['prextseco'] = str_replace(',', '.', $request['prextseco']) || 0;
 
         Producao::create($request->all());
 
@@ -112,12 +118,12 @@ class AnimalMilkController extends Controller
         $request['anregistro'] = $animal->anregistro;
         $request['crcodigo'] = $animal->crcodigo;
         $request['criador_id'] = $animal->criador_id;
-        $request['prplord1'] = str_replace(',', '.', $request['prplord1']);
-        $request['prplord2'] = str_replace(',', '.', $request['prplord2']);
-        $request['prplord3'] = str_replace(',', '.', $request['prplord3']);
-        $request['prgordura'] = str_replace(',', '.', $request['prgordura']);
-        $request['prproteina'] = str_replace(',', '.', $request['prproteina']);
-        $request['prextseco'] = str_replace(',', '.', $request['prextseco']);
+        $request['prplord1'] = str_replace(',', '.', $request['prplord1']) || 0;
+        $request['prplord2'] = str_replace(',', '.', $request['prplord2']) || 0;
+        $request['prplord3'] = str_replace(',', '.', $request['prplord3']) || 0;
+        $request['prgordura'] = str_replace(',', '.', $request['prgordura']) || 0;
+        $request['prproteina'] = str_replace(',', '.', $request['prproteina']) || 0;
+        $request['prextseco'] = str_replace(',', '.', $request['prextseco']) || 0;
 
         $animal_milk->update($request->all());
 
