@@ -24,11 +24,6 @@ class WeightControlController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return view('weight-controls.form');
-    }
-
     public function createByDate()
     {
         return view('weight-controls.form-by-date');

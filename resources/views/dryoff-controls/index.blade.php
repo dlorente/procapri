@@ -2,25 +2,56 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Entrada de animais</h1>
+    <h1 class="mt-4">Encerramento de Lactação</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item active">Entrada de animais</li>
+        <li class="breadcrumb-item active">Encerramento de Lactação</li>
     </ol>
     <div class="card mb-4">
         <div class="card-body">
             Alguma descrição aqui
         </div>
     </div>
+    <div class="card mb-4 border-primary">
+        <div class="card-header">
+            Encerramento de lactação por lote ou local
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 col-sx-12">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          Selecione um lote
+                        </button>
+                        <ul class="dropdown-menu">
+                            @foreach($lotes as $lote)
+                            <li><a class="dropdown-item" href="{{ route('dryoff-controls.form-lote', $lote->id) }}">{{ $lote->l1nome }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          Selecione um local
+                        </button>
+                        <ul class="dropdown-menu">
+                            @foreach($locals as $local)
+                            <li><a class="dropdown-item" href="{{ route('dryoff-controls.form-local', $local->id) }}">{{ $local->l2nome }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Listagem dos animais cadastrados
+            Listagem partos
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <form method="GET" action="{{ route('animals.index') }}">
+                    <form method="GET" action="{{ route('dryoff-controls.index') }}">
                         <div class="input-group mb-3">
                             <input class="form-control" name="search" value="{{ request('search') ?? '' }}" placeholder="Pesquisar pelo animal..."/>
                             <div class="input-group-append">
@@ -31,11 +62,6 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-6 text-end">
-                    <a href="{{ route('animals.create') }}" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Novo animal
-                    </a>
-                </div>
             </div>
             <table class="table table-striped table-bordered">
                 <thead>
@@ -43,7 +69,7 @@
                         <th>Registro</th>
                         <th>Placa</th>
                         <th>Nome do animal</th>
-                        <th>Sexo</th>
+                        <th>Data do parto</th>
                         <th class="text-center w-15">Ações</th>
                     </tr>
                 </thead>
@@ -53,24 +79,11 @@
                             <td>{{ $animal->anregistro }}</td>
                             <td>{{ $animal->ananimal }}</td>
                             <td>{{ $animal->annome }}</td>
-                            <td>{{ $animal->sexo->sxnome }}</td>
+                            <td>{{ date_br($animal->padatapar) }}</td>
                             <td class="text-center">
-
-                                <a href="{{ route('animals.edit', $animal) }}" class="btn btn-primary" title="Editar Animal">
+                                <a href="{{ route('dryoff-controls.edit', $animal->parto_id) }}" class="btn btn-primary" title="Encerrar lactação">
                                     <i class="fa fa-edit"></i>
                                 </a>
-
-                                <a href="javascript:;" class="btn btn-danger" onclick="confirmDelete({{ $animal->id }})" title="Remover Animal">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-
-                                <form id="btn-delete-{{ $animal->id }}" action="{{ route('animals.destroy', $animal) }}"
-                                      method="post" class="hidden">
-
-                                    @method('DELETE')
-                                    @csrf
-
-                                </form>
                             </td>
                         </tr>
                     @empty

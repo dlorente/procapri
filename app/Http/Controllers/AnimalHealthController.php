@@ -26,9 +26,9 @@ class AnimalHealthController extends Controller
             ->orderBy('animal.anregistro')
             ->orderBy('animaldoenca.addtinicio')
             ->paginate(10);        
-    return view('animal-health.index', [
-        'animals' => $animals,
-    ]);
+        return view('animal-health.index', [
+            'animals' => $animals,
+        ]);
     }
 
     /**

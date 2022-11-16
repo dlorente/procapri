@@ -18,6 +18,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        $this->resetActiveAba();
+
         $criador_id = auth()->user()->farmerId();
         $animals = Animal::where('criador_id', $criador_id)->get();
         $cios = Cio::where('criador_id', $criador_id)->get();
@@ -72,5 +75,10 @@ class HomeController extends Controller
             'serieCio' => $serieCio,
             'totalYears' => $totalYears,
         ]);
+    }
+
+    public function resetActiveAba()
+    {
+        session(['active_aba' => -1]);
     }
 }

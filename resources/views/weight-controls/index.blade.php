@@ -32,7 +32,7 @@
                     </form>
                 </div>
                 <div class="col-md-6 text-end">
-                    <a href="{{ route('weight-controls.create') }}" class="btn btn-primary">
+                    <a href="{{ route('animal-weight.create') }}" class="btn btn-primary">
                         <i class="fa fa-plus mr-2"></i> Cadastro individual
                     </a>
                     <a href="{{ route('weight-controls.create-by-date') }}" class="btn btn-primary">

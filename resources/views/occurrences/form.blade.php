@@ -12,10 +12,10 @@
     </ol>
     <div class="card mb-4">
         <div class="card-body">
-            @if (! isset($animal_treatment))
-                    <form method="POST" action="{{ route('animal-treatments.store') }}">
+            @if (! isset($occurrence))
+                    <form method="POST" action="{{ route('occurrences.store') }}">
             @else
-                <form method="POST" action="{{ route('animal-treatments.update', $animal_treatment) }}">
+                <form method="POST" action="{{ route('occurrences.update', $occurrence) }}">
                     @method('PUT')
             @endif
 
@@ -27,8 +27,8 @@
                             <div class="mb-3">
                                 <label class="form-label" for="animal_id" class="form-label">Registro<star>*</star></label>
                                 <select class="form-select select2 @error('animal_id') is-invalid @enderror" aria-label="Lote" name="animal_id" id="animal_id" required>
-                                    @if(isset($animal_treatment))
-                                        <option value="{{ $animal_treatment->animal->id }}">{{ old('anregistro', $animal_treatment->animal->anregistro ?? null) }}</option>
+                                    @if(isset($occurrence))
+                                        <option value="{{ $occurrence->animal->id }}">{{ old('anregistro', $occurrence->animal->anregistro ?? null) }}</option>
                                     @endif
                                 </select>
                                 @error('animal_id')
@@ -43,13 +43,13 @@
                         <div class="col-4">
                             <div class="mb-3">
                                 <label class="form-label">Placa</label>
-                                <input type="text" class="form-control" id="ananimal" readonly value="{{ old('ananimal', $animal_treatment->animal->ananimal ?? null) }}">
+                                <input type="text" class="form-control" id="ananimal" readonly value="{{ old('ananimal', $occurrence->animal->ananimal ?? null) }}">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mb-3">
                                 <label class="form-label">Nome do animal</label>
-                                <input type="text" class="form-control" id="annome" readonly value="{{ old('annome', $animal_treatment->animal->annome ?? null) }}">
+                                <input type="text" class="form-control" id="annome" readonly value="{{ old('annome', $occurrence->animal->annome ?? null) }}">
                             </div>
                         </div>
                         <div class="col-4">
@@ -57,7 +57,7 @@
                                 <label class="form-label" for="ocdata">Data<star>*</star></label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
-                                    <input autocomplete="off" type="text" class="datepicker date form-control @error('ocdata') is-invalid @enderror" id="ocdata" name="ocdata" value="{{ old('ocdata', $animal_treatment->ocdata ?? null) }}">
+                                    <input autocomplete="off" type="text" class="datepicker date form-control @error('ocdata') is-invalid @enderror" id="ocdata" name="ocdata" value="{{ old('ocdata', $occurrence->ocdata ?? null) }}">
                                     @error('ocdata')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -71,7 +71,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="oc1" class="form-label">Ocorrência(1)</label>
-                                <input type="text" class="form-control @error('oc1') is-invalid @enderror" name="oc1" id="oc1" value="{{ old('oc1', $animal_treatment->oc1 ?? null) }}" maxlength="55" required>
+                                <input type="text" class="form-control @error('oc1') is-invalid @enderror" name="oc1" id="oc1" value="{{ old('oc1', $occurrence->oc1 ?? null) }}" maxlength="55" required>
                                 @error('oc1')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -84,7 +84,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="oc2" class="form-label">Ocorrência(2)</label>
-                                <input type="text" class="form-control @error('oc2') is-invalid @enderror" name="oc2" id="oc2" value="{{ old('oc2', $animal_treatment->oc2 ?? null) }}" maxlength="55">
+                                <input type="text" class="form-control @error('oc2') is-invalid @enderror" name="oc2" id="oc2" value="{{ old('oc2', $occurrence->oc2 ?? null) }}" maxlength="55">
                                 @error('oc2')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -97,7 +97,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="oc3" class="form-label">Ocorrência(3)</label>
-                                <input type="text" class="form-control @error('oc3') is-invalid @enderror" name="oc3" id="oc3" value="{{ old('oc3', $animal_treatment->oc3 ?? null) }}" maxlength="55">
+                                <input type="text" class="form-control @error('oc3') is-invalid @enderror" name="oc3" id="oc3" value="{{ old('oc3', $occurrence->oc3 ?? null) }}" maxlength="55">
                                 @error('oc3')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -110,7 +110,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="oc4" class="form-label">Ocorrência(4)</label>
-                                <input type="text" class="form-control @error('oc4') is-invalid @enderror" name="oc4" id="oc4" value="{{ old('oc4', $animal_treatment->oc4 ?? null) }}" maxlength="55">
+                                <input type="text" class="form-control @error('oc4') is-invalid @enderror" name="oc4" id="oc4" value="{{ old('oc4', $occurrence->oc4 ?? null) }}" maxlength="55">
                                 @error('oc4')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -123,7 +123,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="oc5" class="form-label">Ocorrência(5)</label>
-                                <input type="text" class="form-control @error('oc5') is-invalid @enderror" name="oc5" id="oc5" value="{{ old('oc5', $animal_treatment->oc5 ?? null) }}" maxlength="55">
+                                <input type="text" class="form-control @error('oc5') is-invalid @enderror" name="oc5" id="oc5" value="{{ old('oc5', $occurrence->oc5 ?? null) }}" maxlength="55">
                                 @error('oc5')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -136,7 +136,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="oc6" class="form-label">Ocorrência(6)</label>
-                                <input type="text" class="form-control @error('oc6') is-invalid @enderror" name="oc6" id="oc6" value="{{ old('oc6', $animal_treatment->oc6 ?? null) }}" maxlength="55">
+                                <input type="text" class="form-control @error('oc6') is-invalid @enderror" name="oc6" id="oc6" value="{{ old('oc6', $occurrence->oc6 ?? null) }}" maxlength="55">
                                 @error('oc6')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -146,7 +146,7 @@
                         </div>
                     </div>
                 </fieldset>
-                @if (! isset($animal_treatment))
+                @if (! isset($occurrence))
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                 @else
                 <button type="submit" class="btn btn-primary">Atualizar</button>

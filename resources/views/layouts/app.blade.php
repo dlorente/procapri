@@ -7,7 +7,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Tables - SB Admin</title>
+        <title>PROCAPRI - Programa de Controle Produtivo e Reprodutivo de Caprinos</title>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
         @stack('styles')
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -16,7 +16,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">Procapri</a>
+            <a class="navbar-brand ps-3" href="#">Procapri</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -77,6 +77,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            const setActiveAba = index => $.get(`set-active-aba/${index}`)
         </script>
     </body>
 </html>

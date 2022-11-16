@@ -57,8 +57,8 @@ class AnimalController extends Controller
         $cornos = Corno::all();
         $barbas = Barba::all();
         $brincos = Brinco::all();
-        $lotes = Lote::where('criador_id', 1)->get();
-        $locais = Local::where('criador_id', 1)->get();
+        $lotes = Lote::where('criador_id', auth()->user()->farmerId())->get();
+        $locais = Local::where('criador_id', auth()->user()->farmerId())->get();
         return view('animals.form', [
             'sexos' => $sexos,
             'finalidades' => $finalidades,
@@ -81,9 +81,13 @@ class AnimalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnimalRequest $request)
     {
-        //
+        Animal::create($request->all());
+
+        return redirect()
+            ->route('animals.index')
+            ->withToastSuccess('Entrada de animal realizada com sucesso!');
     }
 
     /**
@@ -148,7 +152,7 @@ class AnimalController extends Controller
 
         return redirect()
             ->route('animals.index')
-            ->withToastSuccess('Animal atualizado com sucesso!');
+            ->withToastSuccess('Entrada de animal alterada com sucesso!');
     }
 
     /**

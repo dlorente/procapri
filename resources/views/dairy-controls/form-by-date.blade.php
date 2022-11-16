@@ -75,7 +75,9 @@
                         </div>
                         <div class="col-sm-1 col-sx-12 col-sm-1 col-sx-12  d-flex align-items-end pb-0">
                             <div class="mb-3">
-                                <button class="btn btn-primary" type="button" id="add-dairy"><i class="fa fa-plus-circle"></i></button>
+                                <button class="btn btn-primary" type="button" id="add-dairy" title="Adicionar">
+                                    <i class="fa fa-plus-circle"></i>
+                                </button>
                             </div>
                         </div>
                     </div>

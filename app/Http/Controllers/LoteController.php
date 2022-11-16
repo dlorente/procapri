@@ -108,7 +108,7 @@ class LoteController extends Controller
         $lote->delete();
 
         return redirect()
-            ->route('lotes.index')
+            ->route('lote.index')
             ->withToastSuccess('lote excluído com sucesso!');
     }
 }

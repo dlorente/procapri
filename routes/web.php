@@ -14,12 +14,16 @@ use App\Http\Controllers\AnimalBirthController;
 use App\Http\Controllers\AnimalHealthController;
 use App\Http\Controllers\AnimalWeightController;
 use App\Http\Controllers\DairyControlController;
+use App\Http\Controllers\SetActiveAbaController;
 use App\Http\Controllers\AnimalWeaningController;
 use App\Http\Controllers\WeightControlController;
 use App\Http\Controllers\AnimalTreatmentController;
 use App\Http\Controllers\ParturitionEntriesController;
 use App\Http\Controllers\PregnancyDiagnosesController;
 use App\Http\Controllers\AnimalChangeLocationController;
+use App\Http\Controllers\AnimalRegistrationController;
+use App\Http\Controllers\DryOffControlController;
+use App\Http\Controllers\OccurrenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +40,7 @@ Auth::routes();
 
 
 Route::group(['middleware' => ['auth', 'check.farmer']], function () {
-
+    Route::get('set-active-aba/{index}', [SetActiveAbaController::class, '__invoke'])->name('set.active.aba');
     Route::resources([
         'animals' => AnimalController::class,
         'animal-heat' => AnimalHeatController::class,
@@ -49,6 +53,8 @@ Route::group(['middleware' => ['auth', 'check.farmer']], function () {
         'local' => LocalController::class,
         'animal-treatments' => AnimalTreatmentController::class,
         'pregnancy-diagnoses' => PregnancyDiagnosesController::class,
+        'occurrences' => OccurrenceController::class,
+        'animal-registrations' => AnimalRegistrationController::class,
     ]);
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -106,6 +112,16 @@ Route::group(['middleware' => ['auth', 'check.farmer']], function () {
     Route::post('dairy-controls/store', [DairyControlController::class, 'store'])->name('dairy-controls.store');
     Route::post('dairy-controls/store-by-date', [DairyControlController::class, 'storeByDate'])->name('dairy-controls.store-by-date');
     Route::post('dairy-control/{dairy_control}', [DairyControlController::class, 'destroy'])->name('dairy-controls.destroy');
+
+    // Dryoff Controls
+    Route::get('dryoff-controls', [DryOffControlController::class, 'index'])->name('dryoff-controls.index');
+    Route::get('dryoff-control/{dryoff_control}/edit', [DryOffControlController::class, 'edit'])->name('dryoff-controls.edit');
+    Route::get('dryoff-control/{lote_id}/form-lote', [DryOffControlController::class, 'formLote'])->name('dryoff-controls.form-lote');
+    Route::get('dryoff-control/{local_id}/form-local', [DryOffControlController::class, 'formLocal'])->name('dryoff-controls.form-local');
+    Route::get('dryoff-control/{dryoff_control}/form-local', [DryOffControlController::class, 'formLocal'])->name('dryoff-controls.form-local');
+    Route::post('dryoff-control/{dryoff_control}', [DryOffControlController::class, 'update'])->name('dryoff-controls.update');
+    Route::post('dryoff-control/update-local/{local_id}', [DryOffControlController::class, 'updateLocal'])->name('dryoff-controls.update-local');
+    Route::post('dryoff-control/update-lote/{lote_id}', [DryOffControlController::class, 'updateLote'])->name('dryoff-controls.update-lote');
 });
 
 // Old login

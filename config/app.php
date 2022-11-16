@@ -196,6 +196,12 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
+         * My Custom providers
+         */
+        App\Providers\ViewServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
+
+        /*
          * Installed Plugins
          */
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,

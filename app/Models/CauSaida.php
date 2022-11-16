@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class CauSaida extends Model
+class CauSaida extends BaseModel
 {
     protected $table = 'causaida';
 
