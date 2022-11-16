@@ -23,12 +23,12 @@
             <label class="form-check-label" for="remember">Lembrar senha</label>
         </div>
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-            <a class="small" href="password.html">Esqueceu sua senha?</a>
+            <a class="small" href="#">Esqueceu sua senha?</a>
             <button type="submit" class="btn btn-primary">Acessar</button>
         </div>
     </form>
 </div>
 <div class="card-footer text-center py-3">
-    <div class="small"><a href="register.html">Não tem uma conta? Cadastre-se!</a></div>
+    <div class="small"><a href="{{ route('register') }}">Não tem uma conta? Cadastre-se!</a></div>
 </div>
 @endsection
