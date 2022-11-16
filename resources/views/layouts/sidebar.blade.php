@@ -58,7 +58,7 @@
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Manutenção</div>
-                <a class="nav-link" href="charts.html" onclick="setActiveAba('Manutenção')">
+                <a class="nav-link @setActiveMenu('animal-registrations.index')" href="{{ route('animal-registrations.index') }}" onclick="setActiveAba('Manutenção')">
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     Cadastro de animais
                 </a>
