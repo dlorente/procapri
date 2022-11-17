@@ -83,6 +83,7 @@ class AnimalController extends Controller
      */
     public function store(AnimalRequest $request)
     {
+        $request['crcodigo'] = auth()->user->farmer->crcodigo;
         Animal::create($request->all());
 
         return redirect()
