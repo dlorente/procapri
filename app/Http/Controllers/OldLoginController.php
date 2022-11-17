@@ -19,6 +19,7 @@ class OldLoginController extends Controller
         $data = $request->validate([
             'user' => 'required',
             'password' => 'required',
+            'crendereco' => ['max:40'],
         ]);
 
         $criador = Criador::where('crcodigo', $data['user'])
@@ -26,7 +27,7 @@ class OldLoginController extends Controller
             ->first();
 
         if($criador) {
-            $criador->update(['user_id' => auth()->user()->farmerId()]);
+            $criador->update(['user_id' => auth()->user()->id]);
             
             return redirect()->route('home');
         }
