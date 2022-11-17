@@ -84,6 +84,7 @@ class AnimalController extends Controller
     public function store(AnimalRequest $request)
     {
         $request['crcodigo'] = auth()->user()->farmer->crcodigo;
+        $rquest['criador_id'] = auth()->user()->farmer->id;
         $request['sacodigo'] = 10;
         $request['sangue_id'] = 10;
         Animal::create($request->all());
