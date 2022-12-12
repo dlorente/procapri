@@ -56,6 +56,8 @@ class AnimalRegistrationController extends Controller
         $cornos = Corno::all();
         $barbas = Barba::all();
         $brincos = Brinco::all();
+        $motivos_saida = MotSaida::all();
+        $causas_saida = CauSaida::all();
         $lotes = Lote::where('criador_id', auth()->user()->farmerId())->get();
         $locais = Local::where('criador_id', auth()->user()->farmerId())->get();
         return view('animal-registrations.form', [
@@ -71,6 +73,8 @@ class AnimalRegistrationController extends Controller
             'brincos' => $brincos,
             'lotes' => $lotes,
             'locais' => $locais,
+            'motivos_saida' => $motivos_saida,
+            'causas_saida' => $causas_saida,
         ]);
     }
 

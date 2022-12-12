@@ -367,7 +367,11 @@
                         </div>
                     </div>
                 </fieldset>
+                @if (! isset($animal_registration))
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                @else
                 <button type="submit" class="btn btn-primary">Atualizar</button>
+                @endif
             </form>
         </div>
     </div>
