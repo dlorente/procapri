@@ -10,7 +10,7 @@
         <div class="col-md-4">
             <label for="" class="form-label">Local para a entrada dos animais</label>
             <select name="local_id" id="local_id" class="form-select">
-                <option></option>
+                <option value="">-Selecione o local-</option>
                 @foreach($locals as $local)
                 <option value="{{ $local->id }}">{{ $local->l2nome }}</option>
                 @endforeach
@@ -55,3 +55,20 @@
     </div>
 </form>
 @endif
+<script>       
+    var formLocal = document.getElementById('form-local')
+    if(formLocal) {
+        formLocal.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            if($('#local_id').val() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: 'Verifique se o local de entrada foi informado.'
+                })
+                return
+            }
+            formLocal.submit()
+        });
+    }

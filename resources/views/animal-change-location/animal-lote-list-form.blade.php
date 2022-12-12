@@ -10,7 +10,7 @@
         <div class="col-md-4">
             <label for="" class="form-label">Lote para a entrada dos animais</label>
             <select name="lote_id" id="lote_id" class="form-select">
-                <option></option>
+                <option value="">-Selecione o lote-</option>
                 @foreach($lotes as $lote)
                 <option value="{{ $lote->id }}">{{ $lote->l1nome }}</option>
                 @endforeach
@@ -55,3 +55,21 @@
     </div>
 </form>
 @endif
+<script>       
+    var formLote = document.getElementById('form-lote')
+    if(formLote) {
+        formLote.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            if($('#lote_id').val() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: 'Verifique se o lote de entrada foi informado.'
+                })
+                return
+            }
+            formLote.submit()
+        });
+    }
+</script>

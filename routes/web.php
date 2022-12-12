@@ -63,21 +63,26 @@ Route::group(['middleware' => ['auth', 'check.farmer']], function () {
     Route::get('animals-search', [AnimalController::class, 'animalSearch'])->name('animals.search');
     
     Route::get('animal-exit', [AnimalExitController::class, 'index'])->name('animal-exit');
+    Route::get('animal-exit/individual', [AnimalExitController::class, 'individual'])->name('animal-exit-individual-form');
+    Route::get('animal-exit/lote', [AnimalExitController::class, 'lote'])->name('animal-exit-lote-form');
+    Route::get('animal-exit/local', [AnimalExitController::class, 'local'])->name('animal-exit-local-form');
     Route::get('animal-exit/lote-list-form/{lote}', [AnimalExitController::class, 'animalLoteListForm'])->name('animal-lote-list-form');
     Route::get('animal-exit/local-list-form/{local}', [AnimalExitController::class, 'animalLocalListForm'])->name('animal-local-list-form');
-    Route::get('animal-exit/{animal}/individual-exit', [AnimalExitController::class, 'individualExitForm'])->name('individual-exit-form');
     Route::post('animal-exit/lote-exit', [AnimalExitController::class, 'loteExit'])->name('lote-exit');
     Route::post('animal-exit/local-exit', [AnimalExitController::class, 'LocalExit'])->name('local-exit');
-    Route::post('animals/{animal}/exit', [AnimalController::class, 'animalExit'])->name('animals.exit');
+    Route::post('animal-exit/individual', [AnimalExitController::class, 'individualExit'])->name('animal-exit-individual');
 
     // Animal change location
     Route::get('animal-change-location', [AnimalChangeLocationController::class, 'index'])->name('animal-change-location');
+    Route::get('animal-change-location/individual', [AnimalChangeLocationController::class, 'individual'])->name('animal-change-location-individual-form');
+    Route::get('animal-change-location/lote', [AnimalChangeLocationController::class, 'lote'])->name('animal-change-location-lote-form');
+    Route::get('animal-change-location/local', [AnimalChangeLocationController::class, 'local'])->name('animal-change-location-local-form');
     Route::get('animal-change-location/lote-list-form/{lote}', [AnimalChangeLocationController::class, 'animalLoteListForm'])->name('animal-lote-list-form');
     Route::get('animal-change-location/local-list-form/{local}', [AnimalChangeLocationController::class, 'animalLocalListForm'])->name('animal-local-list-form');
     Route::get('animal-change-location/{animal}/individual-change-location', [AnimalChangeLocationController::class, 'individualChangeLocationForm'])->name('individual-change-location-form');
     Route::post('animal-change-location/lote-change-location', [AnimalChangeLocationController::class, 'loteChangeLocation'])->name('lote-change-location');
     Route::post('animal-change-location/local-change-location', [AnimalChangeLocationController::class, 'LocalChangeLocation'])->name('local-change-location');
-    Route::post('animals/{animal}/change-location', [AnimalChangeLocationController::class, 'individualChangeLocation'])->name('animals.change-location');
+    Route::post('animal-change-location/individual', [AnimalChangeLocationController::class, 'individualChangeLocation'])->name('animal-change-location-individual');
 
     // Animal weaning
     Route::get('animal-weaning', [AnimalWeaningController::class, 'index'])->name('animal-weaning.index');

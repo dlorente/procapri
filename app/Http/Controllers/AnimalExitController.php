@@ -7,6 +7,8 @@ use App\Models\Local;
 use App\Models\Animal;
 use App\Models\CauSaida;
 use App\Models\MotSaida;
+use Illuminate\Http\Request;
+use App\Http\Requests\AnimalExitRequest;
 use App\Http\Requests\AnimalLoteExitRequest;
 use App\Http\Requests\AnimalLocalExitRequest;
 
@@ -14,18 +16,30 @@ class AnimalExitController extends Controller
 {
     public function index()
     {
-        $animals = Animal::search()
-            ->where('animal.criador_id', auth()->user()->farmerId())
-            ->orderBy('animal.anregistro')
-            ->paginate(10);
+        return view('animal-exit.index');
+    }
+
+    public function individual()
+    {
+        $motivos = MotSaida::all();
+        $causas = CauSaida::all();
+        return view('animal-exit.individual', [
+            'motivos' => $motivos,
+            'causas' => $causas,
+        ]);
+    }
+
+    public function lote()
+    {
         $lotes = Lote::where('criador_id', auth()->user()->farmerId())->get();
         $locals = Local::where('criador_id', auth()->user()->farmerId())->get();
+        return view('animal-exit.lote', compact('lotes'));
+    }
 
-        return view('animal-exit.tabs', [
-            'animals' => $animals,
-            'lotes' => $lotes,
-            'locals' => $locals,
-        ]);
+    public function local()
+    {
+        $locals = Local::where('criador_id', auth()->user()->farmerId())->get();
+        return view('animal-exit.local', compact('locals'));
     }
 
     public function animalLoteListForm(Lote $lote)
@@ -80,22 +94,12 @@ class AnimalExitController extends Controller
             ->withToastSuccess('Saída de animal, por local, realizada com sucesso!'); 
     }
 
-    public function individualExitForm(Animal $animal)
+    public function individualExit(AnimalExitRequest $request)
     {
-        $motivos = MotSaida::all();
-        $causas = CauSaida::all();
-        return view('animal-exit.individual-exit-form', [
-            'animal' => $animal,
-            'motivos' => $motivos,
-            'causas' => $causas,
-        ]);
-    }
-
-    public function individualExit(AnimalExitRequest $request, Animal $animal)
-    {
+        $animal = Animal::find($request->animal_id);
         $animal->update($request->all());
         return redirect()
-            ->route('animals.index')
+            ->route('animal-exit-individual')
             ->withToastSuccess('Saída de animal realizada com sucesso!');
     }
 

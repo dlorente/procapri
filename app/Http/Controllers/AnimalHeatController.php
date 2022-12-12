@@ -110,12 +110,12 @@ class AnimalHeatController extends Controller
 
         if($request->type === 'flock') {
             return redirect()
-                ->route('animal-heat.index', ['type' => 'flock'])
+                ->route('animal-heat.create', ['type' => 'flock'])
                 ->withToastSuccess('Entrada de cio cadastrada com sucesso!');
         }
 
         return redirect()
-            ->route('animal-heat.index')
+            ->route('animal-heat.create')
             ->withToastSuccess('Cio (Monta campo) cadastrado com sucesso!');
     }
 

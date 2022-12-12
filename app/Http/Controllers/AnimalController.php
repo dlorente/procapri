@@ -84,13 +84,13 @@ class AnimalController extends Controller
     public function store(AnimalRequest $request)
     {
         $request['crcodigo'] = auth()->user()->farmer->crcodigo;
-        $rquest['criador_id'] = auth()->user()->farmer->id;
+        $request['criador_id'] = auth()->user()->farmerId();
         $request['sacodigo'] = 10;
         $request['sangue_id'] = 10;
         Animal::create($request->all());
 
         return redirect()
-            ->route('animals.index')
+            ->route('animals.create')
             ->withToastSuccess('Entrada de animal realizada com sucesso!');
     }
 
@@ -193,6 +193,13 @@ class AnimalController extends Controller
                         'anregistro' => $animal->anregistro,
                         'annome' => $animal->annome,
                         'ananimal' => $animal->ananimal,
+                        'andnasc' => $animal->andnasc,
+                        'anentrada' => $animal->anentrada,
+                        'sxnome' => $animal->sexo->sxnome,
+                        'l1nome' => $animal->lote->l1nome,
+                        'l2nome' => $animal->local->l2nome,
+                        'lote_id' => $animal->lote_id,
+                        'local_id' => $animal->local_id,
                     ];
                 });
             
@@ -215,6 +222,13 @@ class AnimalController extends Controller
                     'anregistro' => $animal->anregistro,
                     'annome' => $animal->annome,
                     'ananimal' => $animal->ananimal,
+                    'andnasc' => $animal->andnasc,
+                    'anentrada' => $animal->anentrada,
+                    'sxnome' => $animal->sexo->sxnome,
+                    'lote_id' => $animal->lote_id,
+                    'local_id' => $animal->local_id,
+                    'l1nome' => $animal->lote->l1nome,
+                    'l2nome' => $animal->local->l2nome,
                 ];
             });
 
@@ -230,14 +244,6 @@ class AnimalController extends Controller
             'motivos' => $motivos,
             'causas' => $causas,
         ]);
-    }
-
-    public function animalExit(AnimalExitRequest $request, Animal $animal)
-    {
-        $animal->update($request->all());
-        return redirect()
-            ->route('animals.index')
-            ->withToastSuccess('Saída de animal realizada com sucesso!');
     }
 
     public function animalExitFormLote(Animal $animal)

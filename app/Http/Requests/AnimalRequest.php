@@ -23,7 +23,7 @@ class AnimalRequest extends FormRequest
     public function rules()
     {
         return [
-            'anregistro' => ['required'],
+            'anregistro' => ['required', 'unique:animal'],
             'annome' => ['required'],
             'ananimal' => ['required'],
             'andnasc' => ['required', 'date_format:"d/m/Y"'],

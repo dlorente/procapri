@@ -23,6 +23,7 @@ class AnimalExitRequest extends FormRequest
     public function rules()
     {
         return [
+            'animal_id' => ['required', 'exists:animal,id'],
             'andatasai' => ['required', 'date_format:"d/m/Y"'],
             'motsaida_id' => ['required', 'exists:motsaida,id'],
             'causaida_id' => ['required', 'exists:causaida,id'],

@@ -73,7 +73,7 @@ class AnimalHealthController extends Controller
 
         AnimalDoenca::create($request->all());
         return redirect()
-            ->route('animal-health.index')
+            ->route('animal-health.create')
             ->withToastSuccess('Cadastro de doença/animal realizado com sucesso');
     }
 

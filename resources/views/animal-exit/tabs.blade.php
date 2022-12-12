@@ -27,7 +27,7 @@
               </ul>
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="individual-exit" role="tabpanel" aria-labelledby="individual-tab">
-                    @include('animal-exit.tabs.animal-list')                    
+                
                 </div>
                 <div class="tab-pane fade" id="lote-exit" role="tabpanel" aria-labelledby="lote-exit-tab">
                     <div class="row mb-3">
